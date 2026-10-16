@@ -4,258 +4,221 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Yaseen Abdelrhman, Software Engineer</title>
-<meta name="description" content="Yaseen Abdelrhman is a software engineer who builds backend and AI-powered web applications with Python, JavaScript/TypeScript and Java.">
+<meta name="description" content="Yaseen Abdelrhman is a software engineer who builds backend and AI-powered web apps. Try live demos of Recrify, CleanCut and the University Timetable Builder.">
 <meta property="og:title" content="Yaseen Abdelrhman, Software Engineer">
-<meta property="og:description" content="Backend and AI-powered web applications. Projects: Recrify, CleanCut, University Timetable Builder.">
+<meta property="og:description" content="Backend and AI-powered web apps, with live demos you can try in the browser.">
+<meta name="theme-color" content="#0F1A33">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314213D'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='700' font-size='30' fill='%23F6F8F7' text-anchor='middle'%3EYA%3C/text%3E%3C/svg%3E">
-<style>
-:root{
-  --paper:#F6F8F7; --ink:#14213D; --nile:#0E7C7B; --mist:#D7E6E4; --slate:#5A6577; --sand:#E9DFC8; --line:#C9D6D4;
-  --display:"Bricolage Grotesque", system-ui, sans-serif;
-  --body:"Source Serif 4", Georgia, serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.125rem;line-height:1.65}
-a{color:var(--nile);text-underline-offset:3px}
-a:hover{color:var(--ink)}
-:focus-visible{outline:3px solid var(--nile);outline-offset:3px;border-radius:4px}
-.wrap{max-width:1120px;margin:0 auto;padding-left:28px;padding-right:28px}
-h1,h2,h3{font-family:var(--display);line-height:1.1;letter-spacing:-0.01em}
-h2{font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:700;margin-bottom:1.6rem}
-h3{font-size:1.5rem;font-weight:700}
-p{max-width:64ch}
-
-/* nav */
-nav{display:flex;justify-content:space-between;align-items:center;padding:26px 0}
-nav .mark{font-family:var(--display);font-weight:800;font-size:1.15rem;color:var(--ink);text-decoration:none}
-nav ul{list-style:none;display:flex;gap:26px;font-family:var(--display);font-weight:500;font-size:1rem}
-nav ul a{color:var(--ink);text-decoration:none}
-nav ul a:hover{color:var(--nile)}
-
-/* hero */
-.hero{padding-top:9vh;padding-bottom:10vh;border-bottom:1px solid var(--line)}
-.hero h1{font-size:clamp(3.2rem,10vw,8.4rem);font-weight:800;line-height:.92;letter-spacing:-0.035em;max-width:11ch}
-.hero h1 span{display:block;color:var(--nile)}
-.hero .lede{margin-top:2.2rem;font-size:clamp(1.2rem,2vw,1.45rem);max-width:40ch}
-.hero .facts{margin-top:1.2rem;color:var(--slate);font-size:1rem}
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:2.4rem}
-.btn{font-family:var(--display);font-weight:700;font-size:1rem;text-decoration:none;padding:13px 22px;border-radius:999px;border:2px solid var(--ink);color:var(--ink);background:transparent}
-.btn.primary{background:var(--ink);color:var(--paper)}
-.btn:hover{background:var(--nile);border-color:var(--nile);color:var(--paper)}
-
-main section{padding-top:13vh}
-
-/* featured project */
-.feature{display:grid;grid-template-columns:5fr 7fr;gap:56px;align-items:start}
-.feature .tag{font-family:var(--display);font-weight:500;color:var(--nile);font-size:1rem;margin-bottom:.6rem}
-.feature h3{font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;margin-bottom:1rem}
-.feature ul{margin:1.2rem 0 0 1.1rem}
-.feature li{margin:.45rem 0;max-width:56ch}
-.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:1.4rem;list-style:none}
-.stack li{font-family:var(--display);font-size:.9rem;font-weight:500;background:var(--mist);color:var(--ink);padding:5px 12px;border-radius:999px;margin:0}
-.links{margin-top:1.4rem;font-family:var(--display);font-weight:700}
-.links a{margin-right:18px}
-.shots{position:relative;padding-bottom:16%}
-.shots img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
-.shots .back{width:82%;margin-left:auto;box-shadow:0 20px 50px -24px rgba(20,33,61,.35)}
-.shots .front{position:absolute;left:0;bottom:0;width:62%;box-shadow:0 26px 60px -20px rgba(20,33,61,.45)}
-
-.more{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:11vh;padding-top:6vh;border-top:1px solid var(--line)}
-.more .when{color:var(--slate);font-size:1rem;margin:.3rem 0 .8rem}
-.more p{font-size:1.05rem}
-
-.small{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:6vh}
-.small h4{font-family:var(--display);font-size:1.15rem;margin-bottom:.4rem}
-.small p{font-size:1rem;color:var(--slate)}
-.small a{font-family:var(--display);font-weight:700;font-size:.95rem}
-
-/* experience timeline */
-.timeline{list-style:none;border-left:3px solid var(--mist);margin-left:8px}
-.timeline li{position:relative;padding:0 0 3.2rem 34px}
-.timeline li::before{content:"";position:absolute;left:-10px;top:6px;width:17px;height:17px;border-radius:50%;background:var(--paper);border:3px solid var(--nile)}
-.timeline .role{font-family:var(--display);font-weight:700;font-size:1.35rem}
-.timeline .where{color:var(--slate);font-size:1rem;margin:.15rem 0 .7rem}
-.timeline ul{margin-left:1.1rem}
-.timeline ul li{padding:0;margin:.3rem 0}
-.timeline ul li::before{display:none}
-
-.two{display:grid;grid-template-columns:1fr 1fr;gap:56px}
-.skills dt{font-family:var(--display);font-weight:700;margin-top:1rem}
-.skills dt:first-child{margin-top:0}
-.skills dd{color:var(--slate)}
-
-/* contact */
-.contact{margin-top:16vh;background:var(--ink);color:var(--paper);padding:12vh 0}
-.contact h2{color:var(--paper);font-size:clamp(2.4rem,6vw,4.6rem);font-weight:800;max-width:14ch}
-.contact p{color:var(--mist)}
-.contact .btn{border-color:var(--paper);color:var(--paper)}
-.contact .btn.primary{background:var(--paper);color:var(--ink)}
-.contact .btn:hover{background:var(--nile);border-color:var(--nile);color:var(--paper)}
-footer{background:var(--ink);color:var(--slate);font-size:.9rem;padding:0 0 40px}
-footer .wrap{border-top:1px solid #2A3A5C;padding-top:24px;color:#93A0B5}
-
-@media (max-width:860px){
-  nav ul{gap:16px;font-size:.95rem}
-  .feature,.more,.two{grid-template-columns:1fr;gap:40px}
-  .small{grid-template-columns:1fr;gap:28px}
-  .shots{padding-bottom:22%}
-}
-@media (max-width:520px){
-  .wrap{padding-left:16px;padding-right:16px}
-  nav ul li:nth-child(n+3){display:none}
-  body{font-size:1.05rem}
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1A33'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='700' font-size='30' fill='%233CC9C0' text-anchor='middle'%3EYA%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-<header class="wrap">
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"><span class="cursor-label"></span></span></div>
+
+<header class="nav" id="nav">
+  <a class="nav-mark" href="#top" data-cursor="Top">Yaseen<span>.</span></a>
   <nav aria-label="Main">
-    <a class="mark" href="#top">Yaseen Abdelrhman</a>
     <ul>
       <li><a href="#work">Work</a></li>
       <li><a href="#experience">Experience</a></li>
-      <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
+  <a class="nav-cv magnetic" href="assets/Yaseen_Abdelrhman_CV.pdf" download>Download CV</a>
 </header>
 
-<main id="top">
-  <div class="wrap hero">
-    <h1>Yaseen Abdelrhman <span>Software Engineer</span></h1>
-    <p class="lede">I build backend and AI-powered web apps, from LLM resume screening to speech-to-text video tools.</p>
-    <p class="facts">B.Sc. Software Engineering, Near East University (2026). Based in Riyadh, Saudi Arabia.</p>
-    <div class="actions">
-      <a class="btn primary" href="assets/Yaseen_Abdelrhman_CV.pdf" download>Download CV</a>
-      <a class="btn" href="https://github.com/yaseen369">GitHub</a>
-      <a class="btn" href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn</a>
+<main id="main">
+  <!-- HERO: the name is drawn by ~3,000 particles that react to the cursor (js/hero.js) -->
+  <section class="hero" id="top">
+    <canvas class="hero-canvas" aria-hidden="true"></canvas>
+    <div class="hero-content">
+      <h1 class="sr-only">Yaseen Abdelrhman, Software Engineer</h1>
+      <p class="hero-name" aria-hidden="true">Yaseen Abdelrhman, Software Engineer</p>
+      <p class="hero-lede reveal-lines">I build backend and AI-powered web apps, from LLM resume screening to speech-to-text video tools.</p>
+      <div class="hero-actions">
+        <a class="btn btn-light magnetic" href="#work">See my work</a>
+        <a class="btn btn-ghost magnetic" href="https://github.com/yaseen369">GitHub</a>
+        <a class="btn btn-ghost magnetic" href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn</a>
+      </div>
     </div>
-  </div>
-
-  <section id="work" class="wrap" aria-labelledby="work-h">
-    <h2 id="work-h">Selected work</h2>
-
-    <article class="feature">
-      <div>
-        <p class="tag">Graduation project, 2026</p>
-        <h3>Recrify</h3>
-        <p>An AI hiring tool that screens candidates for HR teams. It scores each resume against the job, interviews the candidate live, and ranks everyone by a weighted final score.</p>
-        <ul>
-          <li>LLM resume scoring through the Hugging Face API: match score, strengths, gaps and keywords</li>
-          <li>Live interviews over WebSockets with text or voice answers and feedback on each answer</li>
-          <li>HR dashboard with custom scoring weights, ranking and DOCX evaluation reports</li>
-        </ul>
-        <ul class="stack" aria-label="Tech stack">
-          <li>React</li><li>FastAPI</li><li>PostgreSQL</li><li>WebSockets</li><li>LLMs</li>
-        </ul>
-        <p class="links"><a href="https://github.com/yaseen369/Recrify">View code on GitHub</a></p>
-      </div>
-      <div class="shots">
-        <img class="back" src="assets/hr-dashboard.jpg" alt="Recrify HR dashboard ranking candidates by final, resume and interview score" width="1282" height="960" loading="lazy">
-        <img class="front" src="assets/candidate-portal.jpg" alt="Recrify candidate portal for choosing a job and uploading a resume" width="1422" height="1082" loading="lazy">
-      </div>
-    </article>
-
-    <div class="more">
-      <article>
-        <h3>CleanCut</h3>
-        <p class="when">Near East University IT Center, July to August 2026</p>
-        <p>A web app that finds swear words in a video and mutes or bleeps them. The server transcribes the audio with Whisper and returns each word's exact timestamps. The browser previews the censored video and exports it.</p>
-        <ul class="stack" aria-label="Tech stack"><li>Node.js</li><li>Express</li><li>Whisper</li><li>ffmpeg</li><li>Web Audio API</li></ul>
-        <p class="links"><a href="https://github.com/yaseen369/CleanCut">View code on GitHub</a></p>
-      </article>
-      <article>
-        <h3>University Timetable Builder</h3>
-        <p class="when">Near East University IT Center, 2026</p>
-        <p>Students import the course timetable from Excel, search for classes and drag them into a weekly schedule. The app flags overlapping classes as you build, and the finished schedule downloads as an image.</p>
-        <ul class="stack" aria-label="Tech stack"><li>Next.js</li><li>TypeScript</li><li>Tailwind CSS</li><li>Zustand</li></ul>
-        <p class="links"><a href="https://github.com/yaseen369/timetable-builder">View code on GitHub</a></p>
-      </article>
+    <div class="hero-foot">
+      <p class="hero-hint" aria-hidden="true"><span class="hint-mouse">Move your cursor across my name</span><span class="hint-touch">Drag your finger across my name</span></p>
+      <p class="hero-clock">Riyadh, <time class="clock" data-tz="Asia/Riyadh">--:--</time></p>
     </div>
+  </section>
 
-    <div class="small">
-      <div>
-        <h4>Web App Performance Tester</h4>
-        <p>Python tool for load, rate-limit and stability testing, with CSV and PDF reports.</p>
-        <a href="https://github.com/yaseen369/Web-Applications-test">Code</a>
+  <!-- INTRO: words light up as you scroll -->
+  <section class="intro" aria-label="About me">
+    <p class="scrub-text">I'm a software engineer who graduated from Near East University in 2026 and now lives in Riyadh. I like the backend: designing APIs, shaping data, and wiring AI models into products people actually use. Below are three of my projects. Each one has a small working demo you can try.</p>
+  </section>
+
+  <!-- WORK: pinned horizontal scroll on desktop, stacked on mobile -->
+  <section class="work" id="work" aria-labelledby="work-title">
+    <div class="work-pin">
+      <div class="work-head">
+        <h2 id="work-title">Selected work</h2>
+        <div class="work-progress" aria-hidden="true"><span class="work-progress-bar"></span></div>
+        <p class="work-count" aria-hidden="true"><span class="work-count-now">1</span> / 3</p>
       </div>
-      <div>
-        <h4>Activity &amp; Project Management System</h4>
-        <p>Java app re-engineered from a legacy Java EE system into a layered design.</p>
-        <a href="https://github.com/yaseen369/Activity-and-Project-Management-System">Code</a>
-      </div>
-      <div>
-        <h4>AutoMax</h4>
-        <p>Car sales site with a loan calculator, built in HTML, JavaScript and Classic ASP.</p>
-        <a href="https://yaseen369.github.io/Yaseen-Automax/">Live demo</a>
+      <div class="work-track">
+
+        <!-- RECRIFY -->
+        <article class="panel" id="recrify">
+          <div class="panel-info">
+            <p class="panel-kicker">Graduation project, 2026</p>
+            <h3>Recrify</h3>
+            <p>An AI hiring tool for HR teams. It scores each resume against the job with an LLM, interviews the candidate live over WebSockets, and ranks everyone by a weighted final score.</p>
+            <ul class="tags"><li>React</li><li>FastAPI</li><li>PostgreSQL</li><li>WebSockets</li><li>LLMs</li></ul>
+            <a class="panel-link" href="https://github.com/yaseen369/Recrify" data-cursor="Code">View code on GitHub</a>
+          </div>
+          <div class="demo demo-rank" aria-labelledby="rank-title">
+            <div class="demo-bar"><span id="rank-title">Try it: change how candidates are ranked</span><span class="demo-note">Sample data</span></div>
+            <label class="rank-slider">
+              <span class="rank-weights"><span>Resume <b class="w-resume">60%</b></span><span>Interview <b class="w-interview">40%</b></span></span>
+              <input type="range" min="0" max="100" step="5" value="60" aria-label="Resume weight in percent">
+            </label>
+            <ol class="rank-list">
+              <li data-resume="89" data-interview="38"><span class="rank-pos">1</span><span class="rank-name">Amira H.</span><span class="rank-meter"><span></span></span><span class="rank-score">69</span><span class="rank-sub">Resume 89, interview 38</span></li>
+              <li data-resume="74" data-interview="72"><span class="rank-pos">2</span><span class="rank-name">Omar K.</span><span class="rank-meter"><span></span></span><span class="rank-score">73</span><span class="rank-sub">Resume 74, interview 72</span></li>
+              <li data-resume="58" data-interview="94"><span class="rank-pos">3</span><span class="rank-name">Lina S.</span><span class="rank-meter"><span></span></span><span class="rank-score">72</span><span class="rank-sub">Resume 58, interview 94</span></li>
+              <li data-resume="66" data-interview="55"><span class="rank-pos">4</span><span class="rank-name">Yusuf A.</span><span class="rank-meter"><span></span></span><span class="rank-score">62</span><span class="rank-sub">Resume 66, interview 55</span></li>
+            </ol>
+            <p class="demo-foot">Final score = resume × weight + interview × (1 − weight), the same formula Recrify uses.</p>
+          </div>
+        </article>
+
+        <!-- CLEANCUT -->
+        <article class="panel" id="cleancut">
+          <div class="panel-info">
+            <p class="panel-kicker">NEU IT Center, July to August 2026</p>
+            <h3>CleanCut</h3>
+            <p>A web app that finds swear words in a video and mutes or bleeps them. The server transcribes the audio with Whisper and returns each word's exact timestamps, then the browser previews and exports the clean version.</p>
+            <ul class="tags"><li>Node.js</li><li>Express</li><li>Whisper</li><li>ffmpeg</li><li>Web Audio API</li></ul>
+            <a class="panel-link" href="https://github.com/yaseen369/CleanCut" data-cursor="Code">View code on GitHub</a>
+          </div>
+          <div class="demo demo-censor" aria-labelledby="censor-title">
+            <div class="demo-bar"><span id="censor-title">Try it: play a clip and watch the flagged words</span><span class="demo-note">Simulated audio</span></div>
+            <canvas class="wave" aria-hidden="true"></canvas>
+            <p class="transcript" aria-live="off"></p>
+            <div class="censor-controls">
+              <button class="chip-btn censor-play" type="button" aria-pressed="false">Play</button>
+              <div class="seg" role="group" aria-label="Censor mode">
+                <button type="button" class="seg-btn is-on" data-mode="beep" aria-pressed="true">Beep</button>
+                <button type="button" class="seg-btn" data-mode="mute" aria-pressed="false">Mute</button>
+              </div>
+              <button class="chip-btn censor-sound" type="button" aria-pressed="false">Sound off</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- TIMETABLE -->
+        <article class="panel" id="timetable">
+          <div class="panel-info">
+            <p class="panel-kicker">NEU IT Center, 2026</p>
+            <h3>University Timetable Builder</h3>
+            <p>Students import the course timetable from Excel, then drag classes into a weekly schedule. The app catches overlapping classes as you build and exports the result as an image.</p>
+            <ul class="tags"><li>Next.js</li><li>TypeScript</li><li>Tailwind CSS</li><li>Zustand</li></ul>
+            <a class="panel-link" href="https://github.com/yaseen369/timetable-builder" data-cursor="Code">View code on GitHub</a>
+          </div>
+          <div class="demo demo-tt" aria-labelledby="tt-title">
+            <div class="demo-bar"><span id="tt-title">Try it: drag classes into the week</span><button type="button" class="demo-reset">Reset</button></div>
+            <div class="tt-courses" role="list" aria-label="Courses to add"></div>
+            <div class="tt-grid" aria-label="Weekly schedule"></div>
+            <p class="tt-status" role="status">Drag a class onto the grid, or press it to add.</p>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
 
-  <section id="experience" class="wrap" aria-labelledby="exp-h">
-    <h2 id="exp-h">Experience</h2>
-    <ol class="timeline">
-      <li>
-        <div class="role">Software Development Trainee</div>
-        <div class="where">Near East University IT Center, Nicosia, 2026</div>
-        <ul>
-          <li>Built CleanCut, a Whisper-based tool that detects and bleeps profanity in videos</li>
-          <li>Built a Next.js timetable builder with Excel import and clash detection</li>
-        </ul>
-      </li>
-      <li>
-        <div class="role">Software Engineering Intern</div>
-        <div class="where">Hakeem Engineering Company Ltd., Khartoum, June to August 2025</div>
-        <ul>
-          <li>Developed and tested features for the company's project tracking software</li>
-          <li>Built reports, dashboards and data analyses for project operations</li>
-          <li>Handled requirements analysis, documentation and IT support</li>
-        </ul>
-      </li>
-      <li>
-        <div class="role">AI Summer Sprint Bootcamp, LLM Engineering track</div>
-        <div class="where">Google Developer Group on Campus, Near East University, July 2025</div>
-        <ul>
-          <li>Built StudyBuddy, an AI study assistant, with team Pathfinders</li>
-        </ul>
-      </li>
-    </ol>
+  <!-- MORE WORK -->
+  <section class="more" aria-labelledby="more-title">
+    <h2 id="more-title" class="split">More on GitHub</h2>
+    <ul class="more-list">
+      <li><a href="https://github.com/yaseen369/Web-Applications-test" data-cursor="Open"><span class="more-name">Web App Performance Tester</span><span class="more-desc">Load, rate-limit and stability testing in Python, with CSV and PDF reports</span><span class="more-tech">Python</span></a></li>
+      <li><a href="https://github.com/yaseen369/Activity-and-Project-Management-System" data-cursor="Open"><span class="more-name">Activity &amp; Project Management</span><span class="more-desc">A legacy Java EE system re-engineered into a layered design</span><span class="more-tech">Java</span></a></li>
+      <li><a href="https://yaseen369.github.io/Yaseen-Automax/" data-cursor="Open"><span class="more-name">AutoMax</span><span class="more-desc">Car sales site with a loan calculator and a database-backed version</span><span class="more-tech">JavaScript, ASP</span></a></li>
+    </ul>
   </section>
 
-  <section id="about" class="wrap" aria-labelledby="about-h">
-    <h2 id="about-h">About</h2>
-    <div class="two">
-      <div>
-        <p>I studied Software Engineering at Near East University in North Cyprus from 2022 to 2026. I like backend work: designing APIs, wiring in AI models and making systems that hold up under real use.</p>
-        <p style="margin-top:1rem">Outside class I served in the Sudanese Student Association at Near East University. I speak Arabic and Turkish natively and English fluently.</p>
-      </div>
-      <dl class="skills">
-        <dt>Languages</dt><dd>Python, Java, JavaScript, TypeScript, SQL</dd>
-        <dt>Backend</dt><dd>FastAPI, Flask, Node.js, Express, REST APIs, WebSockets</dd>
-        <dt>Frontend</dt><dd>React, Next.js, Tailwind CSS</dd>
-        <dt>Data and AI</dt><dd>PostgreSQL, SQLite, Hugging Face APIs, Whisper</dd>
-        <dt>Tools</dt><dd>Git, GitHub, software testing</dd>
-      </dl>
+  <!-- NUMBERS -->
+  <section class="numbers" aria-label="At a glance">
+    <div class="num"><span class="odo" data-value="4">4</span><p>years studying Software Engineering</p></div>
+    <div class="num"><span class="odo" data-value="8">8</span><p>weeks as a software engineering intern</p></div>
+    <div class="num"><span class="odo" data-value="3">3</span><p>AI and web apps with live demos above</p></div>
+    <div class="num"><span class="odo" data-value="3">3</span><p>languages spoken: Arabic, Turkish, English</p></div>
+  </section>
+
+  <!-- EXPERIENCE: the line fills as you scroll -->
+  <section class="experience" id="experience" aria-labelledby="exp-title">
+    <h2 id="exp-title" class="split">Experience</h2>
+    <div class="timeline">
+      <span class="timeline-line" aria-hidden="true"><span class="timeline-fill"></span></span>
+      <article class="tl-item">
+        <p class="tl-date">2026</p>
+        <h3>Software Development Trainee</h3>
+        <p class="tl-where">Near East University IT Center, Nicosia</p>
+        <p>Built CleanCut and the University Timetable Builder, both shown above.</p>
+      </article>
+      <article class="tl-item">
+        <p class="tl-date">Jun to Aug 2025</p>
+        <h3>Software Engineering Intern</h3>
+        <p class="tl-where">Hakeem Engineering Company Ltd., Khartoum</p>
+        <p>Developed and tested features for the company's project tracking software, built reports and dashboards, and handled requirements analysis and IT support.</p>
+      </article>
+      <article class="tl-item">
+        <p class="tl-date">Jul 2025</p>
+        <h3>AI Summer Sprint Bootcamp, LLM Engineering</h3>
+        <p class="tl-where">Google Developer Group on Campus, Near East University</p>
+        <p>Built StudyBuddy, an AI study assistant, with team Pathfinders.</p>
+      </article>
+      <article class="tl-item">
+        <p class="tl-date">2022 to 2026</p>
+        <h3>B.Sc. Software Engineering</h3>
+        <p class="tl-where">Near East University, Nicosia</p>
+        <p>Graduation project: Recrify, supervised by Prof. Dr. Fadi Al-Turjman.</p>
+      </article>
     </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills" aria-labelledby="skills-title">
+    <h2 id="skills-title" class="split">What I work with</h2>
+    <dl class="skill-grid">
+      <div><dt>Languages</dt><dd>Python, Java, JavaScript, TypeScript, SQL</dd></div>
+      <div><dt>Backend</dt><dd>FastAPI, Flask, Node.js, Express, REST APIs, WebSockets</dd></div>
+      <div><dt>Frontend</dt><dd>React, Next.js, Tailwind CSS, HTML, CSS</dd></div>
+      <div><dt>Data and AI</dt><dd>PostgreSQL, SQLite, Hugging Face APIs, Whisper</dd></div>
+    </dl>
   </section>
 </main>
 
-<section id="contact" class="contact" aria-labelledby="contact-h">
-  <div class="wrap">
-    <h2 id="contact-h">Let's work together</h2>
-    <p>I'm looking for a software engineering role, backend or AI-focused. Email is the fastest way to reach me.</p>
-    <div class="actions">
-      <a class="btn primary" href="mailto:yassin.freelance.eng@gmail.com">Email me</a>
-      <a class="btn" href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn</a>
-      <a class="btn" href="https://github.com/yaseen369">GitHub</a>
-    </div>
+<!-- CONTACT: letters thicken near the cursor (variable font) -->
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <h2 id="contact-title" class="flex-type">Let's build something</h2>
+  <p class="contact-lede">I'm looking for a software engineering role, backend or AI-focused. Email is the fastest way to reach me.</p>
+  <div class="contact-actions">
+    <button type="button" class="email-copy magnetic" data-email="yassin.freelance.eng@gmail.com" data-cursor="Copy">
+      <span class="email-text">yassin.freelance.eng@gmail.com</span>
+      <span class="email-state" aria-live="polite">Click to copy</span>
+    </button>
+    <a class="btn btn-ghost magnetic" href="mailto:yassin.freelance.eng@gmail.com">Open email app</a>
+    <a class="btn btn-ghost magnetic" href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn</a>
   </div>
+  <footer class="foot">
+    <p>Built with plain HTML, CSS and JavaScript. No frameworks. <a href="https://github.com/yaseen369/yaseen369.github.io">See the code</a></p>
+    <p>Riyadh, <time class="clock" data-tz="Asia/Riyadh">--:--</time></p>
+  </footer>
 </section>
-<footer><div class="wrap">© 2026 Yaseen Abdelrhman</div></footer>
+
+<script src="js/hero.js" defer></script>
+<script src="js/demos.js" defer></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>
