@@ -258,6 +258,10 @@
   tickClock();
   setInterval(tickClock, 15000);
 
+  /* ---------- a hello for anyone who opens DevTools ---------- */
+  console.log('%cHey, you opened the console.', 'font: 700 16px system-ui; color: #0E7C7B');
+  console.log('This site is plain HTML, CSS and JavaScript. The code is here: https://github.com/yaseen369/yaseen369.github.io\nIf you are hiring, I would love to hear from you: yassin.freelance.eng@gmail.com');
+
   /* ---------- start ---------- */
   setupHorizontal();
   onScroll();
