@@ -108,9 +108,9 @@
 
   /* ---------- skills: point at one to see where it was used ---------- */
   const NAMES = {
-    recrify: 'Recrify', cleancut: 'CleanCut', timetable: 'the Timetable Builder',
-    perf: 'the Performance Tester', activity: 'the Activity & Project system',
-    automax: 'AutoMax', bootcamp: 'StudyBuddy at the bootcamp', top: 'this website',
+    recrify: 'Recrify', cleancut: 'CleanCut', perf: 'the Performance Tester',
+    activity: 'the Activity & Project system', itcenter: 'my IT Center training',
+    bootcamp: 'StudyBuddy at the bootcamp', top: 'this website',
   };
   const readout = $('.skill-used');
   const defaultText = readout ? readout.textContent : '';
@@ -169,8 +169,18 @@
   if (finePointer && !reduceMotion) {
     $$('.demo').forEach((card) => {
       let pressed = false;
-      card.addEventListener('pointerdown', () => { pressed = true; });
-      addEventListener('pointerup', () => { pressed = false; });
+      // Freeze the card where it is while a button is held, so a click never
+      // lands on a control that slid out from under the pointer.
+      card.addEventListener('pointerdown', () => {
+        pressed = true;
+        card.style.transition = 'none';
+        card.style.transform = getComputedStyle(card).transform;
+      });
+      addEventListener('pointerup', () => {
+        if (!pressed) return;
+        pressed = false;
+        requestAnimationFrame(() => (card.style.transition = ''));
+      });
       card.addEventListener('pointermove', (e) => {
         const r = card.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width;
@@ -228,6 +238,12 @@
     const go = { w: 'work', e: 'experience', g: 'game' }[k];
     if (go) { document.getElementById(go).scrollIntoView({ behavior: smooth }); togglePanel(false); return; }
     if (k === 't') { scrollTo({ top: 0, behavior: smooth }); togglePanel(false); return; }
+    if (k === 'd') {
+      $('.theme-toggle').click();
+      say(document.documentElement.dataset.theme === 'dark' ? 'Dark mode on' : 'Light mode on');
+      togglePanel(false);
+      return;
+    }
     if (k === 'c') {
       const email = $('.email-copy').dataset.email;
       navigator.clipboard.writeText(email).then(() => say('Email copied: ' + email), () => say(email));

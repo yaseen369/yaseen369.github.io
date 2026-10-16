@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Yaseen Abdelrhman, Software Engineer</title>
-<meta name="description" content="Yaseen Abdelrhman is a software engineer who builds backend and AI-powered web apps. Try live demos of Recrify, CleanCut and the University Timetable Builder.">
+<meta name="description" content="Yaseen Abdelrhman is a software engineer who builds backend and AI-powered web apps. Try live demos of Recrify, CleanCut, a web performance tester and a re-engineered Java system.">
+<meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Yaseen Abdelrhman, Software Engineer">
 <meta property="og:description" content="Backend and AI-powered web apps, with live demos you can try in the browser.">
 <meta name="theme-color" content="#0F1A33">
@@ -13,7 +14,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1A33'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='700' font-size='30' fill='%233CC9C0' text-anchor='middle'%3EYA%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/style.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>
+  // Pick the theme before the page paints: saved choice first, then the system setting.
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = t;
+    document.documentElement.classList.add('js');
+  })();
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -31,7 +41,13 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
-  <a class="nav-cv magnetic" href="assets/Yaseen_Abdelrhman_CV.pdf" download>Download CV</a>
+  <div class="nav-end">
+    <button type="button" class="theme-toggle" aria-label="Switch to dark mode" data-cursor="Theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <a class="nav-cv magnetic" href="assets/Yaseen_Abdelrhman_CV.pdf" download>Download CV</a>
+  </div>
 </header>
 
 <main id="main">
@@ -50,13 +66,16 @@
     </div>
     <div class="hero-foot">
       <p class="hero-hint" aria-hidden="true"><span class="hint-mouse">Move your cursor across my name</span><span class="hint-touch">Drag your finger across my name</span></p>
-      <p class="hero-clock">Riyadh, <time class="clock" data-tz="Asia/Riyadh">--:--</time></p>
+      <figure class="hero-quote">
+        <blockquote><p>“The only way to do great work is to love what you do.”</p></blockquote>
+        <figcaption>Steve Jobs</figcaption>
+      </figure>
     </div>
   </section>
 
   <!-- INTRO: words light up as you scroll -->
   <section class="intro" aria-label="About me">
-    <p class="scrub-text">I'm a software engineer who graduated from Near East University in 2026 and now lives in Riyadh. I like the backend: designing APIs, shaping data, and wiring AI models into products people actually use. Below are three of my projects. Each one has a small working demo you can try.</p>
+    <p class="scrub-text">I'm a software engineer who graduated from Near East University in 2026 and now lives in Riyadh. I like the backend: designing APIs, shaping data, and wiring AI models into products people actually use. Below are four of my projects, each with something you can try or explore.</p>
   </section>
 
   <!-- WORK: pinned horizontal scroll on desktop, stacked on mobile -->
@@ -65,7 +84,7 @@
       <div class="work-head">
         <h2 id="work-title">Selected work</h2>
         <div class="work-progress" aria-hidden="true"><span class="work-progress-bar"></span></div>
-        <p class="work-count" aria-hidden="true"><span class="work-count-now">1</span> / 3</p>
+        <p class="work-count" aria-hidden="true"><span class="work-count-now">1</span> / 4</p>
       </div>
       <div class="work-track">
 
@@ -79,18 +98,39 @@
             <a class="panel-link" href="https://github.com/yaseen369/Recrify" data-cursor="Code">View code on GitHub</a>
           </div>
           <div class="demo demo-rank" aria-labelledby="rank-title">
-            <div class="demo-bar"><span id="rank-title">Try it: change how candidates are ranked</span><span class="demo-note">Sample data</span></div>
+            <div class="demo-bar"><span id="rank-title">Try it: rank candidates, then see the HR report</span><span class="demo-note">Sample data</span></div>
+            <div class="tabs" role="tablist" aria-label="Recrify views">
+              <button type="button" role="tab" class="tab is-on" aria-selected="true" aria-controls="rank-view" id="rank-tab">Ranking</button>
+              <button type="button" role="tab" class="tab" aria-selected="false" aria-controls="report-view" id="report-tab" tabindex="-1">HR report</button>
+            </div>
             <label class="rank-slider">
               <span class="rank-weights"><span>Resume <b class="w-resume">60%</b></span><span>Interview <b class="w-interview">40%</b></span></span>
               <input type="range" min="0" max="100" step="5" value="60" aria-label="Resume weight in percent">
             </label>
-            <ol class="rank-list">
-              <li data-resume="89" data-interview="38"><span class="rank-pos">1</span><span class="rank-name">Amira H.</span><span class="rank-meter"><span></span></span><span class="rank-score">69</span><span class="rank-sub">Resume 89, interview 38</span></li>
-              <li data-resume="74" data-interview="72"><span class="rank-pos">2</span><span class="rank-name">Omar K.</span><span class="rank-meter"><span></span></span><span class="rank-score">73</span><span class="rank-sub">Resume 74, interview 72</span></li>
-              <li data-resume="58" data-interview="94"><span class="rank-pos">3</span><span class="rank-name">Lina S.</span><span class="rank-meter"><span></span></span><span class="rank-score">72</span><span class="rank-sub">Resume 58, interview 94</span></li>
-              <li data-resume="66" data-interview="55"><span class="rank-pos">4</span><span class="rank-name">Yusuf A.</span><span class="rank-meter"><span></span></span><span class="rank-score">62</span><span class="rank-sub">Resume 66, interview 55</span></li>
-            </ol>
-            <p class="demo-foot">Final score = resume × weight + interview × (1 − weight), the same formula Recrify uses.</p>
+            <div class="tab-panel" role="tabpanel" id="rank-view" aria-labelledby="rank-tab">
+              <ol class="rank-list">
+                <li data-resume="89" data-interview="38" data-email="amira.h@example.com"><span class="rank-pos">1</span><span class="rank-name">Amira H.</span><span class="rank-meter"><span></span></span><span class="rank-score">69</span><span class="rank-sub">Resume 89, interview 38</span></li>
+                <li data-resume="74" data-interview="72" data-email="omar.k@example.com"><span class="rank-pos">2</span><span class="rank-name">Omar K.</span><span class="rank-meter"><span></span></span><span class="rank-score">73</span><span class="rank-sub">Resume 74, interview 72</span></li>
+                <li data-resume="58" data-interview="94" data-email="lina.s@example.com"><span class="rank-pos">3</span><span class="rank-name">Lina S.</span><span class="rank-meter"><span></span></span><span class="rank-score">72</span><span class="rank-sub">Resume 58, interview 94</span></li>
+                <li data-resume="66" data-interview="55" data-email="yusuf.a@example.com"><span class="rank-pos">4</span><span class="rank-name">Yusuf A.</span><span class="rank-meter"><span></span></span><span class="rank-score">62</span><span class="rank-sub">Resume 66, interview 55</span></li>
+              </ol>
+              <p class="demo-foot">Final score = resume × weight + interview × (1 − weight), the same formula Recrify uses.</p>
+            </div>
+            <div class="tab-panel report" role="tabpanel" id="report-view" aria-labelledby="report-tab" hidden>
+              <div class="report-doc">
+                <p class="report-title">Ranked Applicants Report</p>
+                <p class="report-meta">Job: Backend Developer · <span class="report-count">4</span> applicants · Weights: resume <span class="r-w">60%</span>, interview <span class="r-wi">40%</span></p>
+                <div class="report-scroll">
+                  <table>
+                    <thead><tr><th scope="col">Rank</th><th scope="col">Candidate</th><th scope="col">Email</th><th scope="col">Final</th><th scope="col">Resume</th><th scope="col">Interview</th></tr></thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+                <p class="report-conclusion"></p>
+                <p class="report-foot">Generated automatically by Recrify.</p>
+              </div>
+              <button type="button" class="chip-btn report-download">Download as CSV</button>
+            </div>
           </div>
         </article>
 
@@ -118,20 +158,67 @@
           </div>
         </article>
 
-        <!-- TIMETABLE -->
-        <article class="panel" id="timetable">
+        <!-- PERFORMANCE TESTER -->
+        <article class="panel" id="perf">
           <div class="panel-info">
-            <p class="panel-kicker">NEU IT Center, 2026</p>
-            <h3>University Timetable Builder</h3>
-            <p>Students import the course timetable from Excel, then drag classes into a weekly schedule. The app <button type="button" class="term" data-tip="Two classes clash when they share a day and their times overlap: start A &lt; end B and end A &gt; start B.">catches overlapping classes</button> as you build and exports the result as an image.</p>
-            <ul class="tags"><li tabindex="0" data-tip="React framework with routing. Powers the app&#x27;s pages.">Next.js</li><li tabindex="0" data-tip="JavaScript with types, so mistakes show up before the code runs.">TypeScript</li><li tabindex="0" data-tip="Utility-first CSS. Styles the whole interface.">Tailwind CSS</li><li tabindex="0" data-tip="A small state store. Keeps the schedule in sync across components.">Zustand</li></ul>
-            <a class="panel-link" href="https://github.com/yaseen369/timetable-builder" data-cursor="Code">View code on GitHub</a>
+            <p class="panel-kicker">Personal project, 2025</p>
+            <h3>Web App Performance Tester</h3>
+            <p>A Python tool that stress-tests any website, API or bot. It runs <button type="button" class="term" data-tip="Many simulated users send requests at the same time, to see how response times change as traffic grows.">load tests</button>, injects failures, fires request bursts to find <button type="button" class="term" data-tip="A limit a server puts on how many requests one client can send in a short time.">rate limits</button> and runs long stability checks, then saves everything to SQLite, CSV and a PDF report.</p>
+            <ul class="tags"><li tabindex="0" data-tip="The language the whole tool is written in.">Python</li><li tabindex="0" data-tip="HTTP library. Sends every test request.">requests</li><li tabindex="0" data-tip="Reads CPU and RAM usage while the tests run.">psutil</li><li tabindex="0" data-tip="Groups the results by test type and computes the summary.">pandas</li><li tabindex="0" data-tip="Draws the graphs in the PDF report.">matplotlib</li><li tabindex="0" data-tip="A file-based database. Stores every request the tool sends.">SQLite</li></ul>
+            <a class="panel-link" href="https://github.com/yaseen369/Web-Applications-test" data-cursor="Code">View code on GitHub</a>
           </div>
-          <div class="demo demo-tt" aria-labelledby="tt-title">
-            <div class="demo-bar"><span id="tt-title">Try it: drag classes into the week</span><button type="button" class="demo-reset">Reset</button></div>
-            <div class="tt-courses" role="list" aria-label="Courses to add"></div>
-            <div class="tt-grid" aria-label="Weekly schedule"></div>
-            <p class="tt-status" role="status">Drag a class onto the grid, or press it to add.</p>
+          <div class="demo demo-perf" aria-labelledby="perf-title">
+            <div class="demo-bar"><span id="perf-title">Try it: run a load test, or open a real report</span></div>
+            <div class="tabs" role="tablist" aria-label="Performance Tester views">
+              <button type="button" role="tab" class="tab is-on" aria-selected="true" aria-controls="perf-run" id="perf-run-tab">Run a test</button>
+              <button type="button" role="tab" class="tab" aria-selected="false" aria-controls="perf-real" id="perf-real-tab" tabindex="-1">Real report</button>
+            </div>
+            <div class="tab-panel" role="tabpanel" id="perf-run" aria-labelledby="perf-run-tab">
+              <div class="perf-chart-wrap"><canvas class="perf-chart" aria-label="Average and 95th percentile response time for 1, 5, 10 and 20 users"></canvas></div>
+              <pre class="perf-log" aria-live="polite"></pre>
+              <div class="perf-controls">
+                <button type="button" class="chip-btn perf-start">Run load test</button>
+                <span class="demo-note">Simulated target, same steps as the real tool</span>
+              </div>
+            </div>
+            <div class="tab-panel" role="tabpanel" id="perf-real" aria-labelledby="perf-real-tab" hidden>
+              <div class="report-scroll">
+                <table class="perf-table">
+                  <thead><tr><th scope="col">Test</th><th scope="col">Requests</th><th scope="col">Passed</th><th scope="col">Avg</th><th scope="col">P95</th></tr></thead>
+                  <tbody>
+                    <tr><td>Load, 1 user</td><td>6</td><td class="bad">0%</td><td>10.01 s</td><td>10.03 s</td></tr>
+                    <tr><td>Load, 5 users</td><td>30</td><td class="bad">0%</td><td>10.00 s</td><td>10.00 s</td></tr>
+                    <tr><td>Load, 10 users</td><td>60</td><td class="bad">0%</td><td>10.00 s</td><td>10.00 s</td></tr>
+                    <tr><td>Load, 20 users</td><td>120</td><td class="bad">0%</td><td>10.00 s</td><td>10.00 s</td></tr>
+                    <tr><td>Failure injection</td><td>15</td><td class="ok">100%</td><td>3.48 s</td><td>5.01 s</td></tr>
+                    <tr><td>Rate limit burst</td><td>250</td><td class="bad">0%</td><td>5.00 s</td><td>5.00 s</td></tr>
+                    <tr><td>Stability, 5 min</td><td>25</td><td class="bad">0%</td><td>10.00 s</td><td>10.01 s</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="demo-foot">Real run against www.neu.edu.tr on 26 May 2025, 506 requests. The site never answered within the tool's 10-second timeout, and the tool caught and reported that. Its failure-injection check flagged all 15 broken endpoints. <a href="https://github.com/yaseen369/Web-Applications-test/tree/main/Test%20results">See the raw files</a></p>
+            </div>
+          </div>
+        </article>
+
+        <!-- ACTIVITY SYSTEM -->
+        <article class="panel" id="activity">
+          <div class="panel-info">
+            <p class="panel-kicker">Final project, SWE395</p>
+            <h3>Activity &amp; Project Management System</h3>
+            <p>A legacy Java EE app, written in Turkish, where one servlet read the forms, checked them, kept lists in the session and picked the next page. I re-engineered it into a <button type="button" class="term" data-tip="Each layer has one job and only talks to the layer below it, so a change in one place doesn't ripple everywhere.">layered</button> Java application with English names, a service layer, data access objects and validation in one place.</p>
+            <ul class="tags"><li tabindex="0" data-tip="The language of both the old and the new version.">Java</li><li tabindex="0" data-tip="The legacy web stack: JSP pages and servlets on an application server.">Servlets and JSP</li><li tabindex="0" data-tip="Data Access Object: one class per table that hides how data is stored.">DAO pattern</li><li tabindex="0" data-tip="Changing the structure of code without changing what it does.">Refactoring</li></ul>
+            <a class="panel-link" href="https://github.com/yaseen369/Activity-and-Project-Management-System" data-cursor="Code">View code on GitHub</a>
+          </div>
+          <div class="demo demo-arch" aria-labelledby="arch-title">
+            <div class="demo-bar"><span id="arch-title">Explore: the same app, before and after</span></div>
+            <div class="seg arch-seg" role="group" aria-label="Version">
+              <button type="button" class="seg-btn" data-v="before" aria-pressed="false">Before</button>
+              <button type="button" class="seg-btn is-on" data-v="after" aria-pressed="true">After</button>
+            </div>
+            <div class="arch" data-v="after"></div>
+            <p class="arch-detail" aria-live="polite"></p>
+            <div class="arch-renames"></div>
           </div>
         </article>
 
@@ -139,21 +226,9 @@
     </div>
   </section>
 
-  <!-- MORE WORK -->
-  <section class="more" aria-labelledby="more-title">
-    <h2 id="more-title" class="split">More on GitHub</h2>
-    <ul class="more-list">
-      <li id="perf"><a href="https://github.com/yaseen369/Web-Applications-test" data-cursor="Open"><span class="more-name">Web App Performance Tester</span><span class="more-desc">Load, rate-limit and stability testing in Python, with CSV and PDF reports</span><span class="more-tech">Python</span></a></li>
-      <li id="activity"><a href="https://github.com/yaseen369/Activity-and-Project-Management-System" data-cursor="Open"><span class="more-name">Activity &amp; Project Management</span><span class="more-desc">A legacy Java EE system re-engineered into a layered design</span><span class="more-tech">Java</span></a></li>
-      <li id="automax"><a href="https://yaseen369.github.io/Yaseen-Automax/" data-cursor="Open"><span class="more-name">AutoMax</span><span class="more-desc">Car sales site with a loan calculator and a database-backed version</span><span class="more-tech">JavaScript, ASP</span></a></li>
-    </ul>
-  </section>
-
   <!-- NUMBERS -->
   <section class="numbers" aria-label="At a glance">
-    <div class="num"><span class="odo" data-value="4">4</span><p>years studying Software Engineering</p></div>
-    <div class="num"><span class="odo" data-value="8">8</span><p>weeks as a software engineering intern</p></div>
-    <div class="num"><span class="odo" data-value="3">3</span><p>AI and web apps with live demos above</p></div>
+    <div class="num"><span class="odo" data-value="4">4</span><p>projects you can try or explore above</p></div>
     <div class="num"><span class="odo" data-value="3">3</span><p>languages spoken: Arabic, Turkish, English</p></div>
   </section>
 
@@ -162,11 +237,11 @@
     <h2 id="exp-title" class="split">Experience</h2>
     <div class="timeline">
       <span class="timeline-line" aria-hidden="true"><span class="timeline-fill"></span></span>
-      <article class="tl-item">
+      <article class="tl-item" id="itcenter">
         <p class="tl-date">2026</p>
         <h3>Software Development Trainee</h3>
         <p class="tl-where">Near East University IT Center, Nicosia</p>
-        <p>Built CleanCut and the University Timetable Builder. <button type="button" class="jump" data-go="cleancut">Try CleanCut</button> <button type="button" class="jump" data-go="timetable">Try the timetable</button></p>
+        <p>Built CleanCut, a web app that mutes or bleeps swear words in videos. <button type="button" class="jump" data-go="cleancut">Try CleanCut</button></p>
       </article>
       <article class="tl-item">
         <p class="tl-date">Jun to Aug 2025</p>
@@ -177,7 +252,7 @@
       <article class="tl-item" id="bootcamp">
         <p class="tl-date">Jul 2025</p>
         <h3>AI Summer Sprint Bootcamp, LLM Engineering</h3>
-        <p class="tl-where">Google Developer Group on Campus, Near East University</p>
+        <p class="tl-where">Google Developer Group Campus, Near East University</p>
         <p>Built StudyBuddy, an AI study assistant, with team Pathfinders.</p>
       </article>
       <article class="tl-item">
@@ -193,9 +268,9 @@
   <section class="skills" aria-labelledby="skills-title">
     <h2 id="skills-title" class="split">What I work with</h2>
     <dl class="skill-grid">
-      <div><dt>Languages</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify perf">Python</button></li><li><button type="button" class="skill" data-used="activity">Java</button></li><li><button type="button" class="skill" data-used="cleancut automax top">JavaScript</button></li><li><button type="button" class="skill" data-used="timetable">TypeScript</button></li><li><button type="button" class="skill" data-used="recrify automax">SQL</button></li></ul></dd></div>
+      <div><dt>Languages</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify perf">Python</button></li><li><button type="button" class="skill" data-used="activity">Java</button></li><li><button type="button" class="skill" data-used="cleancut top">JavaScript</button></li><li><button type="button" class="skill" data-used="itcenter">TypeScript</button></li><li><button type="button" class="skill" data-used="recrify perf">SQL</button></li></ul></dd></div>
       <div><dt>Backend</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify">FastAPI</button></li><li><button type="button" class="skill" data-used="bootcamp">Flask</button></li><li><button type="button" class="skill" data-used="cleancut">Node.js</button></li><li><button type="button" class="skill" data-used="cleancut">Express</button></li><li><button type="button" class="skill" data-used="recrify cleancut">REST APIs</button></li><li><button type="button" class="skill" data-used="recrify">WebSockets</button></li></ul></dd></div>
-      <div><dt>Frontend</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify">React</button></li><li><button type="button" class="skill" data-used="timetable">Next.js</button></li><li><button type="button" class="skill" data-used="timetable">Tailwind CSS</button></li><li><button type="button" class="skill" data-used="top automax">HTML and CSS</button></li></ul></dd></div>
+      <div><dt>Frontend</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify">React</button></li><li><button type="button" class="skill" data-used="itcenter">Next.js</button></li><li><button type="button" class="skill" data-used="itcenter">Tailwind CSS</button></li><li><button type="button" class="skill" data-used="top">HTML and CSS</button></li></ul></dd></div>
       <div><dt>Data and AI</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify">PostgreSQL</button></li><li><button type="button" class="skill" data-used="perf">SQLite</button></li><li><button type="button" class="skill" data-used="recrify cleancut">Hugging Face APIs</button></li><li><button type="button" class="skill" data-used="cleancut">Whisper</button></li></ul></dd></div>
     </dl>
     <p class="skill-used" aria-live="polite">Point at a skill to see where I used it.</p>
@@ -205,22 +280,23 @@
   <section class="game-section" id="game" aria-labelledby="game-title">
     <div class="game-intro">
       <h2 id="game-title" class="split">Before you go, fix my bugs</h2>
-      <p>You have 30 seconds. Squash every bug crawling through my code, but leave the green features alone. Fast squashes in a row build a combo.</p>
+      <p>You have 15 seconds. Squash the bugs crawling through my code, leave the green features alone, and grab the coffee if you see it.</p>
     </div>
     <div class="game">
       <div class="game-hud" aria-live="off">
         <span>Score <b class="hud-score">0</b></span>
         <span class="hud-combo"></span>
-        <span>Time <b class="hud-time">30.0</b></span>
+        <span>Time <b class="hud-time">15.0</b></span>
       </div>
       <div class="game-board">
         <canvas class="game-canvas" tabindex="-1" aria-label="Game board. Click or tap bugs to squash them."></canvas>
         <div class="game-overlay game-start">
-          <p class="overlay-kicker">30 seconds</p>
+          <p class="overlay-kicker">15 seconds</p>
           <p class="overlay-title">Fix my bugs</p>
           <ul class="legend">
             <li><span class="legend-bug" aria-hidden="true"></span>Bugs: click or tap them, +1 each</li>
             <li><span class="legend-feature" aria-hidden="true"></span>Features: don't touch, −3 each</li>
+            <li><span class="legend-coffee" aria-hidden="true"></span>Coffee: slows every bug down</li>
           </ul>
           <button type="button" class="btn btn-light game-play magnetic">Start the game</button>
           <p class="start-best"></p>
@@ -235,6 +311,12 @@
             <button type="button" class="btn btn-ghost game-share">Challenge a friend</button>
             <a class="btn btn-ghost" href="#contact">Hire someone who fixes real ones</a>
           </div>
+          <ul class="end-links" aria-label="Contact Yaseen">
+            <li><a href="https://github.com/yaseen369">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn</a></li>
+            <li><a href="mailto:yassin.freelance.eng@gmail.com">Email</a></li>
+            <li><a href="https://wa.me/905488665458">WhatsApp</a></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -250,12 +332,16 @@
       <span class="email-text">yassin.freelance.eng@gmail.com</span>
       <span class="email-state" aria-live="polite">Click to copy</span>
     </button>
-    <a class="btn btn-ghost magnetic" href="mailto:yassin.freelance.eng@gmail.com">Open email app</a>
-    <a class="btn btn-ghost magnetic" href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn</a>
   </div>
+  <ul class="contact-links">
+    <li><a class="btn btn-ghost magnetic" href="https://github.com/yaseen369">GitHub<span class="link-sub">github.com/yaseen369</span></a></li>
+    <li><a class="btn btn-ghost magnetic" href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn<span class="link-sub">Yaseen Abdelrhman</span></a></li>
+    <li><a class="btn btn-ghost magnetic" href="mailto:yassin.freelance.eng@gmail.com">Email<span class="link-sub">Opens your email app</span></a></li>
+    <li><a class="btn btn-ghost magnetic" href="https://wa.me/905488665458">WhatsApp<span class="link-sub">+90 548 866 5458</span></a></li>
+  </ul>
   <footer class="foot">
-    <p>Built with plain HTML, CSS and JavaScript. No frameworks. <a href="https://github.com/yaseen369/yaseen369.github.io">See the code</a></p>
-    <p><span class="kbd-hint">Press <kbd>?</kbd> for keyboard shortcuts. </span>Riyadh, <time class="clock" data-tz="Asia/Riyadh">--:--</time></p>
+    <p>© 2026 Yaseen Abdelrhman</p>
+    <p class="kbd-hint">Press <kbd>?</kbd> for keyboard shortcuts</p>
   </footer>
 </section>
 
@@ -267,6 +353,7 @@
     <div><dt><kbd>G</kbd></dt><dd>The game</dd></div>
     <div><dt><kbd>C</kbd></dt><dd>Copy my email</dd></div>
     <div><dt><kbd>T</kbd></dt><dd>Back to top</dd></div>
+    <div><dt><kbd>D</kbd></dt><dd>Dark or light mode</dd></div>
     <div><dt><kbd>?</kbd></dt><dd>Show or hide this</dd></div>
   </dl>
 </div>

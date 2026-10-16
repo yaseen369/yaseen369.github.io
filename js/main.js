@@ -126,6 +126,19 @@
     work.style.height = travel + innerHeight + 'px';
   }
 
+  // The pinned area hides overflow, but the browser can still scroll it sideways to
+  // show a focused element. Keep it still, and move the page to that panel instead.
+  const pin = $('.work-pin');
+  pin.addEventListener('scroll', () => { if (pin.scrollLeft) pin.scrollLeft = 0; });
+  work.addEventListener('focusin', (e) => {
+    if (!horizontal) return;
+    const p = e.target.closest('.panel');
+    if (!p || Math.abs(p.getBoundingClientRect().left) < 4) return;
+    const i = panels.indexOf(p);
+    const top = work.getBoundingClientRect().top + scrollY;
+    scrollTo({ top: top + travel * (i / (panels.length - 1)), behavior: 'auto' });
+  });
+
   /* ---------- timeline ---------- */
   const timeline = $('.timeline');
   const fill = $('.timeline-fill');
@@ -248,19 +261,26 @@
     });
   }
 
-  /* ---------- live clock (Riyadh) ---------- */
-  const clocks = $$('.clock');
-  function tickClock() {
-    clocks.forEach((c) => {
-      c.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: c.dataset.tz }).format(new Date());
-    });
+  /* ---------- dark mode ---------- */
+  // The head script already picked a theme before the first paint.
+  const themeBtn = $('.theme-toggle');
+  const systemDark = matchMedia('(prefers-color-scheme: dark)');
+  function savedTheme() { try { return localStorage.getItem('theme'); } catch { return null; } }
+  function setTheme(t, save) {
+    document.documentElement.dataset.theme = t;
+    themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    if (save) { try { localStorage.setItem('theme', t); } catch { /* private mode */ } }
   }
-  tickClock();
-  setInterval(tickClock, 15000);
+  setTheme(document.documentElement.dataset.theme || 'light');
+  themeBtn.addEventListener('click', () => {
+    setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark', true);
+  });
+  // Follow the system setting until the visitor picks one here.
+  systemDark.addEventListener('change', (e) => { if (!savedTheme()) setTheme(e.matches ? 'dark' : 'light'); });
 
   /* ---------- a hello for anyone who opens DevTools ---------- */
   console.log('%cHey, you opened the console.', 'font: 700 16px system-ui; color: #0E7C7B');
-  console.log('This site is plain HTML, CSS and JavaScript. The code is here: https://github.com/yaseen369/yaseen369.github.io\nIf you are hiring, I would love to hear from you: yassin.freelance.eng@gmail.com');
+  console.log('If you are hiring, I would love to hear from you: yassin.freelance.eng@gmail.com');
 
   /* ---------- start ---------- */
   setupHorizontal();

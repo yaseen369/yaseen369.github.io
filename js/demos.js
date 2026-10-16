@@ -1,11 +1,37 @@
 /* ==========================================================
    Live project demos
-   - Recrify: re-rank candidates when the weights change (FLIP animation)
+   - Tabs shared by the demo cards
+   - Recrify: re-rank candidates (FLIP animation) and build the HR report
    - CleanCut: simulated waveform with flagged words, beep or mute
-   - Timetable: drag classes into a week and catch time clashes
+   - Performance Tester: a simulated load test, plus a real report
+   - Activity system: the same app before and after the refactor
    ========================================================== */
+const reduceMotionDemos = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- Recrify ranking ---------- */
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tabs').forEach((list) => {
+  const tabs = [...list.querySelectorAll('[role="tab"]')];
+  function select(tab, focus) {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.classList.toggle('is-on', on);
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) tab.focus();
+    list.dispatchEvent(new CustomEvent('tabchange', { detail: tab.id }));
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (step) { e.preventDefault(); select(tabs[(i + step + tabs.length) % tabs.length], true); }
+    });
+  });
+});
+
+/* ---------- Recrify ranking and HR report ---------- */
 (function rankingDemo() {
   const root = document.querySelector('.demo-rank');
   if (!root) return;
@@ -13,11 +39,18 @@
   const list = root.querySelector('.rank-list');
   const wResume = root.querySelector('.w-resume');
   const wInterview = root.querySelector('.w-interview');
+  const report = root.querySelector('.report');
+  const tbody = report.querySelector('tbody');
+  const conclusion = report.querySelector('.report-conclusion');
 
   function update(animate) {
     const w = slider.value / 100;
-    wResume.textContent = Math.round(w * 100) + '%';
-    wInterview.textContent = Math.round((1 - w) * 100) + '%';
+    const pr = Math.round(w * 100) + '%';
+    const pi = Math.round((1 - w) * 100) + '%';
+    wResume.textContent = pr;
+    wInterview.textContent = pi;
+    report.querySelector('.r-w').textContent = pr;
+    report.querySelector('.r-wi').textContent = pi;
 
     const rows = [...list.children];
     // FLIP step 1: remember where each row is now.
@@ -37,7 +70,9 @@
         list.appendChild(row);
       });
 
-    if (!animate) return;
+    renderReport(rows);
+
+    if (!animate || list.offsetParent === null) return;
     // FLIP steps 2-4: jump back to the old spot, then slide to the new one.
     rows.forEach((row) => {
       const delta = before.get(row) - row.getBoundingClientRect().top;
@@ -48,6 +83,40 @@
       );
     });
   }
+
+  // The same table Recrify writes into the report it sends to HR.
+  function data(rows) {
+    return rows.map((r, i) => ({
+      rank: i + 1,
+      name: r.querySelector('.rank-name').textContent,
+      email: r.dataset.email,
+      final: +r.dataset.score,
+      resume: +r.dataset.resume,
+      interview: +r.dataset.interview,
+    }));
+  }
+  function renderReport(rows) {
+    const d = data(rows);
+    tbody.innerHTML = d.map((c) =>
+      `<tr><td>${c.rank}</td><td>${c.name}</td><td>${c.email}</td><td><b>${c.final}/100</b></td><td>${c.resume}/100</td><td>${c.interview}/100</td></tr>`
+    ).join('');
+    const top = d[0];
+    conclusion.textContent = `The #1 ranked applicant is ${top.name} with a final score of ${top.final}/100. ` +
+      `Their resume score is ${top.resume}/100 and their interview score is ${top.interview}/100.`;
+  }
+
+  report.querySelector('.report-download').addEventListener('click', () => {
+    const d = data([...list.children]);
+    const lines = [['Rank', 'Candidate', 'Email', 'Final score', 'Resume score', 'Interview score'],
+      ...d.map((c) => [c.rank, c.name, c.email, c.final, c.resume, c.interview])];
+    const csv = lines.map((l) => l.join(',')).join('\r\n');
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: 'ranked_applicants_report.csv' });
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
 
   slider.addEventListener('input', () => update(true));
   update(false);
@@ -197,145 +266,230 @@
   size();
 })();
 
-/* ---------- Timetable builder ---------- */
-(function timetableDemo() {
-  const root = document.querySelector('.demo-tt');
+/* ---------- Performance Tester ---------- */
+(function perfDemo() {
+  const root = document.querySelector('.demo-perf');
   if (!root) return;
-  const coursesEl = root.querySelector('.tt-courses');
-  const grid = root.querySelector('.tt-grid');
-  const status = root.querySelector('.tt-status');
-  const resetBtn = root.querySelector('.demo-reset');
+  const canvas = root.querySelector('.perf-chart');
+  const ctx = canvas.getContext('2d');
+  const log = root.querySelector('.perf-log');
+  const startBtn = root.querySelector('.perf-start');
+  const LEVELS = [1, 5, 10, 20];
+  const MAX_LINES = 7;
+  let results = [];           // { users, avg, p95, passed, total }
+  let grow = 1;               // 0..1 for the bar being drawn right now
+  let running = false;
+  let w = 0, h = 0;
 
-  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-  const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const TIMES = ['09:00', '11:00', '13:00', '15:00'];
-  // Each class has a fixed slot, just like rows from the university's Excel sheet.
-  // SWE401 and MTH251 share Tuesday 11:00 on purpose, to show a clash.
-  const COURSES = [
-    { code: 'SWE401', day: 0, time: 0, color: '#3CC9C0' },
-    { code: 'SWE401', day: 2, time: 0, color: '#3CC9C0', label: 'SWE401 lab' },
-    { code: 'AII435', day: 1, time: 1, color: '#E4C988' },
-    { code: 'MTH251', day: 1, time: 1, color: '#F2A18F' },
-    { code: 'ECC413', day: 3, time: 2, color: '#B9C6F5' },
-    { code: 'SWE302', day: 4, time: 3, color: '#D7E6E4' },
-  ];
+  function size() {
+    const r = canvas.getBoundingClientRect();
+    if (!r.width) return;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    w = r.width; h = r.height;
+    canvas.width = w * dpr; canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+  new ResizeObserver(size).observe(canvas);
 
-  let placed = new Map(); // "day-time" -> course
+  function niceMax(v) {
+    const steps = [200, 300, 400, 500, 600, 800, 1000, 1200, 1500, 2000];
+    return steps.find((s) => s >= v) || Math.ceil(v / 500) * 500;
+  }
 
-  // Build the grid: header row, then time rows.
-  function buildGrid() {
-    grid.innerHTML = '<span></span>' + DAYS.map((d) => `<span class="tt-h">${d}</span>`).join('');
-    TIMES.forEach((time, ti) => {
-      grid.insertAdjacentHTML('beforeend', `<span class="tt-t">${time}</span>`);
-      DAYS.forEach((_, di) => {
-        grid.insertAdjacentHTML('beforeend', `<div class="tt-cell" data-key="${di}-${ti}" aria-label="${DAY_NAMES[di]} ${time}"></div>`);
+  function draw() {
+    if (!w) return;
+    ctx.clearRect(0, 0, w, h);
+    const L = 48, R = 10, T = 28, B = 24;
+    const cw = w - L - R, ch = h - T - B;
+    const top = niceMax(Math.max(400, ...results.map((r) => r.p95)));
+    ctx.font = '600 11px "Bricolage Grotesque", system-ui, sans-serif';
+    ctx.textBaseline = 'middle';
+    // grid
+    for (let i = 0; i <= 4; i++) {
+      const y = T + ch - (ch * i) / 4;
+      ctx.fillStyle = '#1E2B4D';
+      ctx.fillRect(L, Math.round(y), cw, 1);
+      ctx.fillStyle = '#6B7A93';
+      ctx.textAlign = 'right';
+      ctx.fillText(Math.round((top * i) / 4) + (i === 4 ? ' ms' : ''), L - 8, y);
+    }
+    // legend
+    ctx.textAlign = 'left';
+    [['Average', '#3CC9C0'], ['95th percentile', '#E4C988']].forEach(([label, c], i) => {
+      const x = L + i * 96;
+      ctx.fillStyle = c; ctx.fillRect(x, 8, 10, 10);
+      ctx.fillStyle = '#C4CDDB'; ctx.fillText(label, x + 15, 13);
+    });
+    // bars
+    const gw = cw / LEVELS.length;
+    const bw = Math.min(26, gw * 0.26);
+    LEVELS.forEach((u, i) => {
+      const cx = L + gw * i + gw / 2;
+      ctx.fillStyle = '#93A0B5';
+      ctx.textAlign = 'center';
+      ctx.fillText(u === 1 ? '1 user' : u + ' users', cx, h - 10);
+      const r = results[i];
+      if (!r) return;
+      const k = i === results.length - 1 ? grow : 1;
+      [[r.avg, '#3CC9C0', -bw - 2], [r.p95, '#E4C988', 2]].forEach(([v, c, dx]) => {
+        const bh = (v / top) * ch * k;
+        ctx.fillStyle = c;
+        ctx.fillRect(cx + dx, T + ch - bh, bw, bh);
       });
     });
+    if (!results.length) {
+      ctx.fillStyle = '#6B7A93';
+      ctx.textAlign = 'center';
+      ctx.font = '600 13px "Bricolage Grotesque", system-ui, sans-serif';
+      ctx.fillText('Press "Run load test" to start', L + cw / 2, T + ch / 2);
+    }
   }
 
-  function buildChips() {
-    coursesEl.innerHTML = '';
-    COURSES.forEach((c, i) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'tt-chip';
-      btn.dataset.i = i;
-      btn.style.background = c.color;
-      btn.setAttribute('role', 'listitem');
-      btn.innerHTML = `${c.label || c.code}<small>${DAYS[c.day]} ${TIMES[c.time]}</small>`;
-      btn.setAttribute('data-cursor', 'Drag');
-      coursesEl.appendChild(btn);
+  function line(html, cls) {
+    const el = document.createElement('span');
+    el.className = 'pl' + (cls ? ' ' + cls : '');
+    el.innerHTML = html;
+    log.appendChild(el);
+    while (log.children.length > MAX_LINES) log.firstChild.remove();
+  }
+  const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotionDemos ? 0 : ms));
+  function tween(ms) {
+    return new Promise((resolve) => {
+      if (reduceMotionDemos) { grow = 1; draw(); resolve(); return; }
+      const t0 = performance.now();
+      (function step(now) {
+        const p = Math.min(1, (now - t0) / ms);
+        grow = 1 - Math.pow(1 - p, 3);
+        draw();
+        if (p < 1) requestAnimationFrame(step); else resolve();
+      })(t0);
     });
   }
 
-  function say(text, isClash) {
-    status.textContent = text;
-    status.classList.toggle('is-clash', !!isClash);
-  }
-
-  // Try to place a course. Returns true if it fit.
-  function place(i, chip) {
-    const c = COURSES[i];
-    const key = `${c.day}-${c.time}`;
-    const cell = grid.querySelector(`[data-key="${key}"]`);
-    const existing = placed.get(key);
-    if (existing) {
-      cell.classList.remove('is-clash');
-      void cell.offsetWidth; // restart the shake animation
-      cell.classList.add('is-clash');
-      say(`Clash: ${c.label || c.code} overlaps ${existing.label || existing.code} on ${DAY_NAMES[c.day]} at ${TIMES[c.time]}.`, true);
-      return false;
+  async function run() {
+    if (running) return;
+    running = true;
+    startBtn.disabled = true;
+    startBtn.textContent = 'Running...';
+    results = [];
+    log.textContent = '';
+    draw();
+    line('$ python web-tester.py --url https://demo-api.example --test load', 'dim');
+    // Response time grows with the number of users, like a real server under load.
+    const base = 95 + Math.random() * 40;
+    for (const u of LEVELS) {
+      const total = u * 6;
+      line(`[load] ${u} ${u === 1 ? 'user ' : 'users'} sending ${total} requests...`);
+      await wait(250);
+      const avg = Math.round(base * (1 + 0.04 * u + 0.0022 * u * u) + Math.random() * 18);
+      const p95 = Math.round(avg * (1.3 + Math.random() * 0.3));
+      const failed = u >= 20 ? Math.floor(Math.random() * 4) : 0;
+      results.push({ users: u, avg, p95, passed: total - failed, total });
+      grow = 0;
+      await tween(650);
+      const pct = Math.round(((total - failed) / total) * 100);
+      line(`       avg ${avg} ms, p95 ${p95} ms, <span class="${failed ? 'bad' : 'ok'}">${total - failed}/${total} passed (${pct}%)</span>`);
     }
-    placed.set(key, c);
-    cell.innerHTML = `<button type="button" class="tt-placed" style="background:${c.color}" data-cursor="Remove" aria-label="Remove ${c.label || c.code}">${c.label || c.code}</button>`;
-    cell.querySelector('.tt-placed').addEventListener('click', () => {
-      placed.delete(key);
-      cell.innerHTML = '';
-      chip.hidden = false;
-      say(`Removed ${c.label || c.code}.`);
-    });
-    chip.hidden = true;
-    const left = COURSES.length - placed.size;
-    say(left ? `Added ${c.label || c.code}. ${left} left to place.` : 'Every class is placed. No clashes.');
-    return true;
+    await wait(250);
+    line('[failure] 15 broken endpoints injected, <span class="ok">15 flagged</span>');
+    await wait(350);
+    line('[report] saved results.db, enhanced_summary.csv and report.pdf', 'dim');
+    running = false;
+    startBtn.disabled = false;
+    startBtn.textContent = 'Run again';
   }
+  startBtn.addEventListener('click', run);
+  line('Ready. This tab simulates a target so you can see the steps.', 'dim');
+})();
 
-  // Drag with pointer events (works for mouse, pen and touch).
-  let drag = null;
-  coursesEl.addEventListener('pointerdown', (e) => {
-    const chip = e.target.closest('.tt-chip');
-    if (!chip) return;
-    const rect = chip.getBoundingClientRect();
-    drag = { chip, i: +chip.dataset.i, startX: e.clientX, startY: e.clientY, dx: e.clientX - rect.left, dy: e.clientY - rect.top, moved: false, clone: null };
-    chip.setPointerCapture(e.pointerId);
-  });
+/* ---------- Activity & Project Management: before and after ---------- */
+(function archDemo() {
+  const root = document.querySelector('.demo-arch');
+  if (!root) return;
+  const stage = root.querySelector('.arch');
+  const detail = root.querySelector('.arch-detail');
+  const renames = root.querySelector('.arch-renames');
+  const btns = [...root.querySelectorAll('.seg-btn')];
 
-  coursesEl.addEventListener('pointermove', (e) => {
-    if (!drag) return;
-    if (!drag.moved && Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) < 6) return;
-    if (!drag.moved) {
-      drag.moved = true;
-      drag.clone = drag.chip.cloneNode(true);
-      drag.clone.classList.add('is-dragging');
-      drag.clone.style.width = drag.chip.offsetWidth + 'px';
-      document.body.appendChild(drag.clone);
-      drag.chip.classList.add('is-ghost');
-      grid.classList.add('is-over');
-      const c = COURSES[drag.i];
-      grid.querySelector(`[data-key="${c.day}-${c.time}"]`).classList.add('is-target');
-    }
-    drag.clone.style.left = e.clientX - drag.dx + 'px';
-    drag.clone.style.top = e.clientY - drag.dy + 'px';
-  });
+  // Class and page names are taken from the real code.
+  const VERSIONS = {
+    before: {
+      intro: 'One servlet does most of the work. Pick a box to see what each part does.',
+      layers: [
+        ['Pages', [
+          ['faaliyet.jsp', 'The activity form. Errors and the success message ("Faaliyetiniz başarıyla eklenmiştir") come back to it as request attributes.'],
+          ['tarihSor.jsp', 'Asks for a date range and a project before listing activities.'],
+          ['faaliyetSonuc.jsp', 'Shows the activities found for that date range.'],
+          ['faaliyetRapor.jsp', 'The activity report page.'],
+        ]],
+        ['Servlet', [
+          ['FaaliyetServlet', 'Adds, updates, lists and deletes activities in one class. It reads and checks the form, stores lists in the session and chooses the next page. Two of its error handlers are empty, so some failures disappear without a trace.', true],
+          ['FormVerifier', 'A form checker from an in-house framework. Its errors are thrown as Hata, Turkish for "error".'],
+        ]],
+        ['Data', [
+          ['FaaliyetDS', 'A singleton the servlet calls directly: faaliyetEkle (add), faaliyetGuncelle (update), faaliyetGoster (list) and faaliyetSil (delete).'],
+        ]],
+        ['Model', [
+          ['Faaliyet', 'An activity, with Turkish field names such as tarih (date), calismaSaati (work hours) and projeKod (project code).'],
+          ['Kullanici', 'A user.'],
+          ['Proje', 'A project.'],
+        ]],
+      ],
+    },
+    after: {
+      intro: 'Each layer has one job and only talks to the one below. Pick a box to see what it does.',
+      layers: [
+        ['Wiring', [
+          ['AppConfig', 'Creates each DAO and the service once and hands them out, so no class builds its own dependencies.'],
+        ]],
+        ['Service', [
+          ['ActivityService', 'addActivity checks the data with ValidationUtil, makes sure the project and the user exist, then saves through ActivityDAO. Anything wrong is thrown as an ActivityException with a clear message.'],
+        ]],
+        ['Rules', [
+          ['ValidationUtil', 'Every check in one place: isValidString, isValidProjectCode (P followed by three digits) and isValidDate (no dates in the future).'],
+          ['ActivityException', 'One exception type for business errors, so problems are reported instead of swallowed.'],
+        ]],
+        ['Data', [
+          ['ActivityDAO', 'saveActivity, getAllActivities and getActivityByProjectCode. Storage details stay inside this layer.'],
+          ['ProjectDAO', 'Saves projects and finds one by its code.'],
+          ['UserDAO', 'Saves users and checks a password with verifyUser.'],
+        ]],
+        ['Model', [
+          ['Activity', 'The same data with English names: date, workHours, projectCode, workLocation.'],
+          ['Project', 'A project with its code and name.'],
+          ['User', 'A user, with password checking kept inside the class.'],
+        ]],
+      ],
+    },
+  };
+  const RENAMES = [['Faaliyet', 'Activity'], ['Kullanici', 'User'], ['Proje', 'Project'], ['tarih', 'date'], ['calismaSaati', 'workHours'], ['projeKod', 'projectCode']];
 
-  function endDrag(e) {
-    if (!drag) return;
-    const { chip, i, moved, clone } = drag;
-    drag = null;
-    grid.classList.remove('is-over');
-    grid.querySelectorAll('.is-target').forEach((c) => c.classList.remove('is-target'));
-    chip.classList.remove('is-ghost');
-    if (clone) clone.remove();
-    if (!moved) { place(i, chip); return; }  // a plain click/tap adds it too
-    const r = grid.getBoundingClientRect();
-    const overGrid = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-    if (overGrid) place(i, chip);
-    else say('Drop the class anywhere on the grid. It goes to its scheduled slot.');
+  renames.innerHTML = '<span class="arch-renames-label">Renamed</span>' +
+    RENAMES.map(([a, b]) => `<span class="rename"><s>${a}</s> <span aria-hidden="true">→</span><span class="sr-only">became</span> <b>${b}</b></span>`).join('');
+
+  function render(v) {
+    const ver = VERSIONS[v];
+    stage.dataset.v = v;
+    let n = 0;
+    stage.innerHTML = ver.layers.map(([label, boxes], li) =>
+      (li ? '<span class="arch-arrow" aria-hidden="true"></span>' : '') +
+      `<div class="arch-layer"><span class="arch-label">${label}</span><div class="arch-boxes">` +
+      boxes.map(([name, , warn]) => `<button type="button" class="arch-box${warn ? ' is-warn' : ''}" style="--i:${n++}" aria-pressed="false">${name}</button>`).join('') +
+      '</div></div>'
+    ).join('');
+    detail.textContent = ver.intro;
+    const lookup = Object.fromEntries(ver.layers.flatMap(([, boxes]) => boxes.map(([name, text]) => [name, text])));
+    stage.querySelectorAll('.arch-box').forEach((b) => b.addEventListener('click', () => {
+      const on = b.getAttribute('aria-pressed') !== 'true';
+      stage.querySelectorAll('.arch-box').forEach((x) => { x.classList.remove('is-on'); x.setAttribute('aria-pressed', 'false'); });
+      if (on) { b.classList.add('is-on'); b.setAttribute('aria-pressed', 'true'); }
+      detail.innerHTML = on ? `<b>${b.textContent}</b> ${lookup[b.textContent]}` : ver.intro;
+    }));
   }
-  coursesEl.addEventListener('pointerup', endDrag);
-  coursesEl.addEventListener('pointercancel', endDrag);
-  // Keyboard: Enter/Space on a chip fires a click with no pointer.
-  coursesEl.addEventListener('click', (e) => {
-    const chip = e.target.closest('.tt-chip');
-    if (chip && e.detail === 0) place(+chip.dataset.i, chip);
-  });
-
-  function reset() {
-    placed = new Map();
-    buildGrid();
-    buildChips();
-    say('Drag a class onto the grid, or press it to add.');
-  }
-  resetBtn.addEventListener('click', reset);
-  reset();
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', x === b); });
+    render(b.dataset.v);
+  }));
+  render('after');
 })();
