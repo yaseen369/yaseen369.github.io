@@ -20,6 +20,8 @@
 
 <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"><span class="cursor-label"></span></span></div>
 
+<div class="read-progress" aria-hidden="true"><span></span></div>
+
 <header class="nav" id="nav">
   <a class="nav-mark" href="#top" data-cursor="Top">Yaseen<span>.</span></a>
   <nav aria-label="Main">
@@ -72,8 +74,8 @@
           <div class="panel-info">
             <p class="panel-kicker">Graduation project, 2026</p>
             <h3>Recrify</h3>
-            <p>An AI hiring tool for HR teams. It scores each resume against the job with an LLM, interviews the candidate live over WebSockets, and ranks everyone by a weighted final score.</p>
-            <ul class="tags"><li>React</li><li>FastAPI</li><li>PostgreSQL</li><li>WebSockets</li><li>LLMs</li></ul>
+            <p>An AI hiring tool for HR teams. It scores each resume against the job with an <button type="button" class="term" data-tip="A large language model, the kind of AI behind chat assistants. Recrify sends it the resume and the job and gets back a structured score.">LLM</button>, interviews the candidate live over <button type="button" class="term" data-tip="A connection that stays open, so the server can send each interview question the moment it is ready.">WebSockets</button>, and ranks everyone by a <button type="button" class="term" data-tip="Resume score × weight + interview score × (1 − weight). Try the slider to see it change the ranking.">weighted final score</button>.</p>
+            <ul class="tags"><li tabindex="0" data-tip="UI library. Recrify&#x27;s candidate portal and HR dashboard are built with it.">React</li><li tabindex="0" data-tip="Python web framework. Runs Recrify&#x27;s API and its interview sessions.">FastAPI</li><li tabindex="0" data-tip="Relational database. Stores Recrify&#x27;s jobs, applicants and interview records.">PostgreSQL</li><li tabindex="0" data-tip="Live two-way connection. Streams interview questions and answers.">WebSockets</li><li tabindex="0" data-tip="Large language models. Score the resumes and write the interview feedback.">LLMs</li></ul>
             <a class="panel-link" href="https://github.com/yaseen369/Recrify" data-cursor="Code">View code on GitHub</a>
           </div>
           <div class="demo demo-rank" aria-labelledby="rank-title">
@@ -97,8 +99,8 @@
           <div class="panel-info">
             <p class="panel-kicker">NEU IT Center, July to August 2026</p>
             <h3>CleanCut</h3>
-            <p>A web app that finds swear words in a video and mutes or bleeps them. The server transcribes the audio with Whisper and returns each word's exact timestamps, then the browser previews and exports the clean version.</p>
-            <ul class="tags"><li>Node.js</li><li>Express</li><li>Whisper</li><li>ffmpeg</li><li>Web Audio API</li></ul>
+            <p>A web app that finds swear words in a video and mutes or bleeps them. The server transcribes the audio with <button type="button" class="term" data-tip="OpenAI's speech-to-text model. It returns every word together with the second it starts and ends.">Whisper</button> and returns each word's exact timestamps, then the browser previews and exports the clean version.</p>
+            <ul class="tags"><li tabindex="0" data-tip="JavaScript on the server. Runs CleanCut&#x27;s backend.">Node.js</li><li tabindex="0" data-tip="Node.js web framework. Receives video uploads and serves the transcribe API.">Express</li><li tabindex="0" data-tip="Speech-to-text model. Returns each word with its exact time.">Whisper</li><li tabindex="0" data-tip="Audio and video toolkit. Pulls the audio out of a video and splits it into chunks.">ffmpeg</li><li tabindex="0" data-tip="The browser&#x27;s sound engine. Mutes or beeps words during preview.">Web Audio API</li></ul>
             <a class="panel-link" href="https://github.com/yaseen369/CleanCut" data-cursor="Code">View code on GitHub</a>
           </div>
           <div class="demo demo-censor" aria-labelledby="censor-title">
@@ -121,8 +123,8 @@
           <div class="panel-info">
             <p class="panel-kicker">NEU IT Center, 2026</p>
             <h3>University Timetable Builder</h3>
-            <p>Students import the course timetable from Excel, then drag classes into a weekly schedule. The app catches overlapping classes as you build and exports the result as an image.</p>
-            <ul class="tags"><li>Next.js</li><li>TypeScript</li><li>Tailwind CSS</li><li>Zustand</li></ul>
+            <p>Students import the course timetable from Excel, then drag classes into a weekly schedule. The app <button type="button" class="term" data-tip="Two classes clash when they share a day and their times overlap: start A &lt; end B and end A &gt; start B.">catches overlapping classes</button> as you build and exports the result as an image.</p>
+            <ul class="tags"><li tabindex="0" data-tip="React framework with routing. Powers the app&#x27;s pages.">Next.js</li><li tabindex="0" data-tip="JavaScript with types, so mistakes show up before the code runs.">TypeScript</li><li tabindex="0" data-tip="Utility-first CSS. Styles the whole interface.">Tailwind CSS</li><li tabindex="0" data-tip="A small state store. Keeps the schedule in sync across components.">Zustand</li></ul>
             <a class="panel-link" href="https://github.com/yaseen369/timetable-builder" data-cursor="Code">View code on GitHub</a>
           </div>
           <div class="demo demo-tt" aria-labelledby="tt-title">
@@ -141,9 +143,9 @@
   <section class="more" aria-labelledby="more-title">
     <h2 id="more-title" class="split">More on GitHub</h2>
     <ul class="more-list">
-      <li><a href="https://github.com/yaseen369/Web-Applications-test" data-cursor="Open"><span class="more-name">Web App Performance Tester</span><span class="more-desc">Load, rate-limit and stability testing in Python, with CSV and PDF reports</span><span class="more-tech">Python</span></a></li>
-      <li><a href="https://github.com/yaseen369/Activity-and-Project-Management-System" data-cursor="Open"><span class="more-name">Activity &amp; Project Management</span><span class="more-desc">A legacy Java EE system re-engineered into a layered design</span><span class="more-tech">Java</span></a></li>
-      <li><a href="https://yaseen369.github.io/Yaseen-Automax/" data-cursor="Open"><span class="more-name">AutoMax</span><span class="more-desc">Car sales site with a loan calculator and a database-backed version</span><span class="more-tech">JavaScript, ASP</span></a></li>
+      <li id="perf"><a href="https://github.com/yaseen369/Web-Applications-test" data-cursor="Open"><span class="more-name">Web App Performance Tester</span><span class="more-desc">Load, rate-limit and stability testing in Python, with CSV and PDF reports</span><span class="more-tech">Python</span></a></li>
+      <li id="activity"><a href="https://github.com/yaseen369/Activity-and-Project-Management-System" data-cursor="Open"><span class="more-name">Activity &amp; Project Management</span><span class="more-desc">A legacy Java EE system re-engineered into a layered design</span><span class="more-tech">Java</span></a></li>
+      <li id="automax"><a href="https://yaseen369.github.io/Yaseen-Automax/" data-cursor="Open"><span class="more-name">AutoMax</span><span class="more-desc">Car sales site with a loan calculator and a database-backed version</span><span class="more-tech">JavaScript, ASP</span></a></li>
     </ul>
   </section>
 
@@ -164,7 +166,7 @@
         <p class="tl-date">2026</p>
         <h3>Software Development Trainee</h3>
         <p class="tl-where">Near East University IT Center, Nicosia</p>
-        <p>Built CleanCut and the University Timetable Builder, both shown above.</p>
+        <p>Built CleanCut and the University Timetable Builder. <button type="button" class="jump" data-go="cleancut">Try CleanCut</button> <button type="button" class="jump" data-go="timetable">Try the timetable</button></p>
       </article>
       <article class="tl-item">
         <p class="tl-date">Jun to Aug 2025</p>
@@ -172,7 +174,7 @@
         <p class="tl-where">Hakeem Engineering Company Ltd., Khartoum</p>
         <p>Developed and tested features for the company's project tracking software, built reports and dashboards, and handled requirements analysis and IT support.</p>
       </article>
-      <article class="tl-item">
+      <article class="tl-item" id="bootcamp">
         <p class="tl-date">Jul 2025</p>
         <h3>AI Summer Sprint Bootcamp, LLM Engineering</h3>
         <p class="tl-where">Google Developer Group on Campus, Near East University</p>
@@ -182,7 +184,7 @@
         <p class="tl-date">2022 to 2026</p>
         <h3>B.Sc. Software Engineering</h3>
         <p class="tl-where">Near East University, Nicosia</p>
-        <p>Graduation project: Recrify, supervised by Prof. Dr. Fadi Al-Turjman.</p>
+        <p>Graduation project: Recrify, supervised by Prof. Dr. Fadi Al-Turjman. <button type="button" class="jump" data-go="recrify">Try Recrify</button></p>
       </article>
     </div>
   </section>
@@ -191,11 +193,12 @@
   <section class="skills" aria-labelledby="skills-title">
     <h2 id="skills-title" class="split">What I work with</h2>
     <dl class="skill-grid">
-      <div><dt>Languages</dt><dd>Python, Java, JavaScript, TypeScript, SQL</dd></div>
-      <div><dt>Backend</dt><dd>FastAPI, Flask, Node.js, Express, REST APIs, WebSockets</dd></div>
-      <div><dt>Frontend</dt><dd>React, Next.js, Tailwind CSS, HTML, CSS</dd></div>
-      <div><dt>Data and AI</dt><dd>PostgreSQL, SQLite, Hugging Face APIs, Whisper</dd></div>
+      <div><dt>Languages</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify perf">Python</button></li><li><button type="button" class="skill" data-used="activity">Java</button></li><li><button type="button" class="skill" data-used="cleancut automax top">JavaScript</button></li><li><button type="button" class="skill" data-used="timetable">TypeScript</button></li><li><button type="button" class="skill" data-used="recrify automax">SQL</button></li></ul></dd></div>
+      <div><dt>Backend</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify">FastAPI</button></li><li><button type="button" class="skill" data-used="bootcamp">Flask</button></li><li><button type="button" class="skill" data-used="cleancut">Node.js</button></li><li><button type="button" class="skill" data-used="cleancut">Express</button></li><li><button type="button" class="skill" data-used="recrify cleancut">REST APIs</button></li><li><button type="button" class="skill" data-used="recrify">WebSockets</button></li></ul></dd></div>
+      <div><dt>Frontend</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify">React</button></li><li><button type="button" class="skill" data-used="timetable">Next.js</button></li><li><button type="button" class="skill" data-used="timetable">Tailwind CSS</button></li><li><button type="button" class="skill" data-used="top automax">HTML and CSS</button></li></ul></dd></div>
+      <div><dt>Data and AI</dt><dd><ul class="skill-chips"><li><button type="button" class="skill" data-used="recrify">PostgreSQL</button></li><li><button type="button" class="skill" data-used="perf">SQLite</button></li><li><button type="button" class="skill" data-used="recrify cleancut">Hugging Face APIs</button></li><li><button type="button" class="skill" data-used="cleancut">Whisper</button></li></ul></dd></div>
     </dl>
+    <p class="skill-used" aria-live="polite">Point at a skill to see where I used it.</p>
   </section>
 
   <!-- GAME: 30-second bug squashing (js/game.js) -->
@@ -252,13 +255,27 @@
   </div>
   <footer class="foot">
     <p>Built with plain HTML, CSS and JavaScript. No frameworks. <a href="https://github.com/yaseen369/yaseen369.github.io">See the code</a></p>
-    <p>Riyadh, <time class="clock" data-tz="Asia/Riyadh">--:--</time></p>
+    <p><span class="kbd-hint">Press <kbd>?</kbd> for keyboard shortcuts. </span>Riyadh, <time class="clock" data-tz="Asia/Riyadh">--:--</time></p>
   </footer>
 </section>
+
+<div class="shortcuts" role="dialog" aria-modal="false" aria-labelledby="sc-title" hidden>
+  <p id="sc-title" class="sc-title">Keyboard shortcuts</p>
+  <dl>
+    <div><dt><kbd>W</kbd></dt><dd>Work</dd></div>
+    <div><dt><kbd>E</kbd></dt><dd>Experience</dd></div>
+    <div><dt><kbd>G</kbd></dt><dd>The game</dd></div>
+    <div><dt><kbd>C</kbd></dt><dd>Copy my email</dd></div>
+    <div><dt><kbd>T</kbd></dt><dd>Back to top</dd></div>
+    <div><dt><kbd>?</kbd></dt><dd>Show or hide this</dd></div>
+  </dl>
+</div>
+<div class="tip" role="tooltip" id="tip" hidden></div>
 
 <script src="js/hero.js" defer></script>
 <script src="js/demos.js" defer></script>
 <script src="js/game.js" defer></script>
 <script src="js/main.js" defer></script>
+<script src="js/interact.js" defer></script>
 </body>
 </html>

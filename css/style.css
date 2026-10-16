@@ -268,6 +268,7 @@ section { position: relative; }
 .skill-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; border-top: 1.5px solid var(--ink); padding-top: 24px; }
 .skill-grid dt { font-family: var(--display); font-weight: 750; font-size: 1.25rem; margin-bottom: .4rem; }
 .skill-grid dd { color: var(--slate); }
+.skill-grid dt { margin-bottom: .7rem; }
 
 /* split headings (word reveal) */
 .js .split .word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .06em; }
@@ -319,6 +320,67 @@ section { position: relative; }
 .email-copy.is-copied { background: var(--sand); }
 .foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-top: clamp(90px, 16vh, 180px); padding-top: 22px; border-top: 1px solid #2A3A5C; color: #93A0B5; font-family: var(--display); font-size: .95rem; }
 .foot a { color: var(--nile-bright); }
+
+/* ---------- quiet interactions (js/interact.js) ---------- */
+::selection { background: var(--nile-bright); color: var(--night); }
+
+.read-progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 60; pointer-events: none; }
+.read-progress span { display: block; height: 100%; background: var(--nile-bright); transform-origin: left; transform: scaleX(0); }
+
+/* terms inside paragraphs */
+.term { font: inherit; color: inherit; padding: 0; text-decoration: underline dotted; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--nile); transition: color .2s, text-decoration-color .2s; }
+.term:hover, .term:focus-visible { color: var(--nile); text-decoration-style: solid; }
+
+/* tech tags with tips */
+.tags li[data-tip] { cursor: help; transition: background-color .25s, color .25s; }
+.tags li[data-tip]:hover, .tags li[data-tip]:focus-visible { background: var(--ink); color: var(--paper); }
+
+.tip {
+  position: fixed; z-index: 95; max-width: 270px; pointer-events: none;
+  background: var(--ink); color: var(--paper); border-radius: 12px; padding: 10px 13px;
+  font-family: var(--display); font-size: .88rem; font-weight: 500; line-height: 1.4;
+  box-shadow: 0 18px 40px -16px rgba(15, 26, 51, .6);
+  opacity: 0; transform: translateY(4px); transition: opacity .18s, transform .18s var(--ease-out);
+}
+.tip.is-below { transform: translateY(-4px); }
+.tip.is-on { opacity: 1; transform: none; }
+
+/* skills as chips */
+.skill-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.skill { font-family: var(--display); font-weight: 600; font-size: .95rem; padding: 6px 13px; border-radius: 999px; border: 1.5px solid var(--line); color: var(--ink); transition: background-color .2s, color .2s, border-color .2s; }
+.skill:hover, .skill:focus-visible, .skill[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.skill-used { margin-top: 26px; font-family: var(--display); font-weight: 500; font-size: 1.15rem; min-height: 1.6em; color: var(--slate); }
+.skill-used b { color: var(--ink); }
+.go, .jump { font-family: var(--display); font-weight: 700; color: var(--nile); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.go:hover, .jump:hover { color: var(--ink); }
+.jump { margin-left: 8px; font-size: .95rem; }
+
+/* after jumping to something, it glows once */
+.is-flash { animation: flash 1.6s var(--ease-out); }
+@keyframes flash { 0% { box-shadow: 0 0 0 0 rgba(60, 201, 192, .9); } 100% { box-shadow: 0 0 0 26px rgba(60, 201, 192, 0); } }
+
+/* demo cards: soft light under the pointer */
+.demo { position: relative; transition: transform .6s var(--ease-out); }
+.demo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .07), transparent 60%); opacity: 0; transition: opacity .4s; }
+.demo:hover::after { opacity: 1; }
+.demo > * { position: relative; z-index: 1; }
+
+/* links draw their underline again on hover */
+.panel-link, .foot a { text-decoration: none; background: linear-gradient(currentColor, currentColor) left bottom / 100% 2px no-repeat; padding-bottom: 2px; }
+.panel-link:hover, .foot a:hover { animation: redraw .55s var(--ease-out); }
+@keyframes redraw { 0% { background-size: 0 2px; } 100% { background-size: 100% 2px; } }
+
+/* keyboard shortcuts */
+kbd { font-family: ui-monospace, Consolas, monospace; font-size: .85em; padding: 1px 7px; border-radius: 6px; border: 1px solid #3A4B72; background: var(--night-2); color: var(--paper); }
+.kbd-hint { margin-right: 12px; }
+@media (hover: none) { .kbd-hint { display: none; } }
+.shortcuts { position: fixed; right: 20px; bottom: 20px; z-index: 96; width: 250px; background: var(--night); color: var(--paper); border: 1px solid #2A3A5C; border-radius: 16px; padding: 18px 20px; font-family: var(--display); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .5); }
+.shortcuts[hidden] { display: none; }
+.sc-title { font-weight: 800; margin-bottom: 10px; }
+.shortcuts dl div { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; }
+.shortcuts dd { color: #C4CDDB; font-weight: 500; }
+.toast { position: fixed; left: 50%; bottom: 24px; z-index: 97; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; background: var(--ink); color: var(--paper); font-family: var(--display); font-weight: 600; padding: 11px 18px; border-radius: 999px; transition: opacity .25s, transform .35s var(--ease-out); }
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
 
 /* ---------- responsive ---------- */
 @media (max-width: 999px) {
