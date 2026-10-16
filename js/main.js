@@ -243,24 +243,6 @@
     }
   }
 
-  /* ---------- copy email ---------- */
-  const emailBtn = $('.email-copy');
-  if (emailBtn) {
-    const state = $('.email-state', emailBtn);
-    emailBtn.addEventListener('click', async () => {
-      const email = emailBtn.dataset.email;
-      try {
-        await navigator.clipboard.writeText(email);
-        state.textContent = 'Copied to clipboard';
-      } catch {
-        location.href = 'mailto:' + email;   // fall back to the email app
-        return;
-      }
-      emailBtn.classList.add('is-copied');
-      setTimeout(() => { state.textContent = 'Click to copy'; emailBtn.classList.remove('is-copied'); }, 2200);
-    });
-  }
-
   /* ---------- dark mode ---------- */
   // The head script already picked a theme before the first paint.
   const themeBtn = $('.theme-toggle');

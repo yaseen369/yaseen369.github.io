@@ -66,7 +66,7 @@
     </div>
     <div class="hero-foot">
       <p class="hero-hint" aria-hidden="true"><span class="hint-mouse">Move your cursor across my name</span><span class="hint-touch">Drag your finger across my name</span></p>
-      <figure class="hero-quote">
+      <figure class="quote hero-quote">
         <blockquote><p>“The only way to do great work is to love what you do.”</p></blockquote>
         <figcaption>Steve Jobs</figcaption>
       </figure>
@@ -98,25 +98,16 @@
             <a class="panel-link" href="https://github.com/yaseen369/Recrify" data-cursor="Code">View code on GitHub</a>
           </div>
           <div class="demo demo-rank" aria-labelledby="rank-title">
-            <div class="demo-bar"><span id="rank-title">Try it: rank candidates, then see the HR report</span><span class="demo-note">Sample data</span></div>
+            <div class="demo-bar"><span id="rank-title">Try it: change the weights, watch the HR report update</span><span class="demo-note">Sample data</span></div>
             <div class="tabs" role="tablist" aria-label="Recrify views">
-              <button type="button" role="tab" class="tab is-on" aria-selected="true" aria-controls="rank-view" id="rank-tab">Ranking</button>
-              <button type="button" role="tab" class="tab" aria-selected="false" aria-controls="report-view" id="report-tab" tabindex="-1">HR report</button>
+              <button type="button" role="tab" class="tab is-on" aria-selected="true" aria-controls="report-view" id="report-tab">HR report</button>
+              <button type="button" role="tab" class="tab" aria-selected="false" aria-controls="rank-view" id="rank-tab" tabindex="-1">Ranking</button>
             </div>
             <label class="rank-slider">
               <span class="rank-weights"><span>Resume <b class="w-resume">60%</b></span><span>Interview <b class="w-interview">40%</b></span></span>
               <input type="range" min="0" max="100" step="5" value="60" aria-label="Resume weight in percent">
             </label>
-            <div class="tab-panel" role="tabpanel" id="rank-view" aria-labelledby="rank-tab">
-              <ol class="rank-list">
-                <li data-resume="89" data-interview="38" data-email="amira.h@example.com"><span class="rank-pos">1</span><span class="rank-name">Amira H.</span><span class="rank-meter"><span></span></span><span class="rank-score">69</span><span class="rank-sub">Resume 89, interview 38</span></li>
-                <li data-resume="74" data-interview="72" data-email="omar.k@example.com"><span class="rank-pos">2</span><span class="rank-name">Omar K.</span><span class="rank-meter"><span></span></span><span class="rank-score">73</span><span class="rank-sub">Resume 74, interview 72</span></li>
-                <li data-resume="58" data-interview="94" data-email="lina.s@example.com"><span class="rank-pos">3</span><span class="rank-name">Lina S.</span><span class="rank-meter"><span></span></span><span class="rank-score">72</span><span class="rank-sub">Resume 58, interview 94</span></li>
-                <li data-resume="66" data-interview="55" data-email="yusuf.a@example.com"><span class="rank-pos">4</span><span class="rank-name">Yusuf A.</span><span class="rank-meter"><span></span></span><span class="rank-score">62</span><span class="rank-sub">Resume 66, interview 55</span></li>
-              </ol>
-              <p class="demo-foot">Final score = resume × weight + interview × (1 − weight), the same formula Recrify uses.</p>
-            </div>
-            <div class="tab-panel report" role="tabpanel" id="report-view" aria-labelledby="report-tab" hidden>
+            <div class="tab-panel report" role="tabpanel" id="report-view" aria-labelledby="report-tab">
               <div class="report-doc">
                 <p class="report-title">Ranked Applicants Report</p>
                 <p class="report-meta">Job: Backend Developer · <span class="report-count">4</span> applicants · Weights: resume <span class="r-w">60%</span>, interview <span class="r-wi">40%</span></p>
@@ -130,6 +121,15 @@
                 <p class="report-foot">Generated automatically by Recrify.</p>
               </div>
               <button type="button" class="chip-btn report-download">Download as CSV</button>
+            </div>
+            <div class="tab-panel" role="tabpanel" id="rank-view" aria-labelledby="rank-tab" hidden>
+              <ol class="rank-list">
+                <li data-resume="89" data-interview="38" data-email="amira.h@example.com"><span class="rank-pos">1</span><span class="rank-name">Amira H.</span><span class="rank-meter"><span></span></span><span class="rank-score">69</span><span class="rank-sub">Resume 89, interview 38</span></li>
+                <li data-resume="74" data-interview="72" data-email="omar.k@example.com"><span class="rank-pos">2</span><span class="rank-name">Omar K.</span><span class="rank-meter"><span></span></span><span class="rank-score">73</span><span class="rank-sub">Resume 74, interview 72</span></li>
+                <li data-resume="58" data-interview="94" data-email="lina.s@example.com"><span class="rank-pos">3</span><span class="rank-name">Lina S.</span><span class="rank-meter"><span></span></span><span class="rank-score">72</span><span class="rank-sub">Resume 58, interview 94</span></li>
+                <li data-resume="66" data-interview="55" data-email="yusuf.a@example.com"><span class="rank-pos">4</span><span class="rank-name">Yusuf A.</span><span class="rank-meter"><span></span></span><span class="rank-score">62</span><span class="rank-sub">Resume 66, interview 55</span></li>
+              </ol>
+              <p class="demo-foot">Final score = resume × weight + interview × (1 − weight), the same formula Recrify uses.</p>
             </div>
           </div>
         </article>
@@ -311,12 +311,6 @@
             <button type="button" class="btn btn-ghost game-share">Challenge a friend</button>
             <a class="btn btn-ghost" href="#contact">Hire someone who fixes real ones</a>
           </div>
-          <ul class="end-links" aria-label="Contact Yaseen">
-            <li><a href="https://github.com/yaseen369">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn</a></li>
-            <li><a href="mailto:yassin.freelance.eng@gmail.com">Email</a></li>
-            <li><a href="https://wa.me/905488665458">WhatsApp</a></li>
-          </ul>
         </div>
       </div>
     </div>
@@ -327,18 +321,16 @@
 <section class="contact" id="contact" aria-labelledby="contact-title">
   <h2 id="contact-title" class="flex-type">Let's build something</h2>
   <p class="contact-lede">I'm looking for a software engineering role, backend or AI-focused. Email is the fastest way to reach me.</p>
-  <div class="contact-actions">
-    <button type="button" class="email-copy magnetic" data-email="yassin.freelance.eng@gmail.com" data-cursor="Copy">
-      <span class="email-text">yassin.freelance.eng@gmail.com</span>
-      <span class="email-state" aria-live="polite">Click to copy</span>
-    </button>
-  </div>
   <ul class="contact-links">
     <li><a class="btn btn-ghost magnetic" href="https://github.com/yaseen369">GitHub<span class="link-sub">github.com/yaseen369</span></a></li>
     <li><a class="btn btn-ghost magnetic" href="https://www.linkedin.com/in/yaseen-abdelrhman-905aaa253">LinkedIn<span class="link-sub">Yaseen Abdelrhman</span></a></li>
-    <li><a class="btn btn-ghost magnetic" href="mailto:yassin.freelance.eng@gmail.com">Email<span class="link-sub">Opens your email app</span></a></li>
+    <li><a class="btn btn-ghost magnetic" href="mailto:yassin.freelance.eng@gmail.com">Email<span class="link-sub">yassin.freelance.eng@gmail.com</span></a></li>
     <li><a class="btn btn-ghost magnetic" href="https://wa.me/905488665458">WhatsApp<span class="link-sub">+90 548 866 5458</span></a></li>
   </ul>
+  <figure class="quote quote-end">
+    <blockquote><p>“The best way to predict the future is to invent it.”</p></blockquote>
+    <figcaption>Alan Kay</figcaption>
+  </figure>
   <footer class="foot">
     <p>© 2026 Yaseen Abdelrhman</p>
     <p class="kbd-hint">Press <kbd>?</kbd> for keyboard shortcuts</p>
