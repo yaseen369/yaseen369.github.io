@@ -15,6 +15,7 @@ index.html      page content and structure
 css/style.css   all styles; colours and fonts are CSS variables at the top
 js/hero.js      particle name in the hero
 js/demos.js     the three live project demos
+js/game.js      the "Fix my bugs" game
 js/main.js      cursor, scroll effects, counters, contact interactions
 assets/         CV and Recrify screenshots
 ```
@@ -32,6 +33,7 @@ assets/         CV and Recrify screenshots
 | Number counters | `main.js` | Each digit is a column of 0–9 that slides into place when it enters the screen (IntersectionObserver). |
 | Contact headline | `main.js` | Each letter's variable-font weight and width depend on its distance from the cursor. |
 | Custom cursor, magnetic buttons | `main.js` | Mouse-only, eased with linear interpolation each frame. |
+| "Fix my bugs" game | `game.js` | A 30-second canvas game. Bugs spawn at the edges, wander with a random turn rate and bounce off the walls; spawn rate and speed grow with time and board size. Clicks pick the nearest bug within reach. Combos, ranks, a personal best in `localStorage` and a share button (Web Share API, or clipboard as a fallback). |
 
 ## Accessibility and performance
 

@@ -197,6 +197,45 @@
       <div><dt>Data and AI</dt><dd>PostgreSQL, SQLite, Hugging Face APIs, Whisper</dd></div>
     </dl>
   </section>
+
+  <!-- GAME: 30-second bug squashing (js/game.js) -->
+  <section class="game-section" id="game" aria-labelledby="game-title">
+    <div class="game-intro">
+      <h2 id="game-title" class="split">Before you go, fix my bugs</h2>
+      <p>You have 30 seconds. Squash every bug crawling through my code, but leave the green features alone. Fast squashes in a row build a combo.</p>
+    </div>
+    <div class="game">
+      <div class="game-hud" aria-live="off">
+        <span>Score <b class="hud-score">0</b></span>
+        <span class="hud-combo"></span>
+        <span>Time <b class="hud-time">30.0</b></span>
+      </div>
+      <div class="game-board">
+        <canvas class="game-canvas" tabindex="-1" aria-label="Game board. Click or tap bugs to squash them."></canvas>
+        <div class="game-overlay game-start">
+          <p class="overlay-kicker">30 seconds</p>
+          <p class="overlay-title">Fix my bugs</p>
+          <ul class="legend">
+            <li><span class="legend-bug" aria-hidden="true"></span>Bugs: click or tap them, +1 each</li>
+            <li><span class="legend-feature" aria-hidden="true"></span>Features: don't touch, −3 each</li>
+          </ul>
+          <button type="button" class="btn btn-light game-play magnetic">Start the game</button>
+          <p class="start-best"></p>
+        </div>
+        <div class="game-overlay game-end" hidden>
+          <p class="overlay-kicker">Time's up</p>
+          <p class="overlay-title end-rank"></p>
+          <p class="end-stats"></p>
+          <p class="end-best"></p>
+          <div class="end-actions">
+            <button type="button" class="btn btn-light game-again">Play again</button>
+            <button type="button" class="btn btn-ghost game-share">Challenge a friend</button>
+            <a class="btn btn-ghost" href="#contact">Hire someone who fixes real ones</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- CONTACT: letters thicken near the cursor (variable font) -->
@@ -219,6 +258,7 @@
 
 <script src="js/hero.js" defer></script>
 <script src="js/demos.js" defer></script>
+<script src="js/game.js" defer></script>
 <script src="js/main.js" defer></script>
 </body>
 </html>
