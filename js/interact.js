@@ -245,7 +245,7 @@
       return;
     }
     if (k === 'c') {
-      const email = $('.email-copy').dataset.email;
+      const email = 'yassin.freelance.eng@gmail.com';
       navigator.clipboard.writeText(email).then(() => say('Email copied: ' + email), () => say(email));
       togglePanel(false);
     }
