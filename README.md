@@ -17,6 +17,7 @@ js/hero.js      particle name in the hero
 js/demos.js     the three live project demos
 js/game.js      the "Fix my bugs" game
 js/main.js      cursor, scroll effects, counters, contact interactions
+js/interact.js  quiet interactions: tips, skills, headings, shortcuts
 assets/         CV and Recrify screenshots
 ```
 
@@ -34,6 +35,18 @@ assets/         CV and Recrify screenshots
 | Contact headline | `main.js` | Each letter's variable-font weight and width depend on its distance from the cursor. |
 | Custom cursor, magnetic buttons | `main.js` | Mouse-only, eased with linear interpolation each frame. |
 | "Fix my bugs" game | `game.js` | A 30-second canvas game. Bugs spawn at the edges, wander with a random turn rate and bounce off the walls; spawn rate and speed grow with time and board size. Clicks pick the nearest bug within reach. Combos, ranks, a personal best in `localStorage` and a share button (Web Share API, or clipboard as a fallback). |
+
+### Quiet interactions (`interact.js`)
+
+Nothing moves on its own; each effect answers a hover, focus, tap or key press.
+
+- **Tips on tech tags and terms:** one floating tooltip, positioned above or below the element, shown on hover and keyboard focus, and tapped open on touch screens.
+- **Skills to projects:** pointing at a skill lists the projects that use it, with links that scroll to them (and to the right panel inside the sideways section).
+- **Headings:** letters near the pointer get lighter, using the variable font's weight axis.
+- **Demo cards:** a 3° tilt and a soft light that follow the pointer, paused while you drag or use a slider.
+- **Numbers:** pointing at one rolls its digits again.
+- **Reading progress:** a thin line at the top of the window.
+- **Keyboard shortcuts:** press `?` to see them (W, E, G, C, T).
 
 ## Accessibility and performance
 
