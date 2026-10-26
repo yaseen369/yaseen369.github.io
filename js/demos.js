@@ -4,7 +4,7 @@
    - Recrify: re-rank candidates (FLIP animation) and build the HR report
    - CleanCut: simulated waveform with flagged words, beep or mute
    - Performance Tester: a simulated load test, plus a real report
-   - Activity system: the same app before and after the refactor
+   - Activity system: the Turkish and English versions side by side
    ========================================================== */
 const reduceMotionDemos = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -403,42 +403,42 @@ document.querySelectorAll('.tabs').forEach((list) => {
   line('Ready. This tab simulates a target so you can see the steps.', 'dim');
 })();
 
-/* ---------- Activity & Project Management: before and after ---------- */
+/* ---------- Activity & Project Management: Turkish and English versions ---------- */
 (function archDemo() {
   const root = document.querySelector('.demo-arch');
   if (!root) return;
   const stage = root.querySelector('.arch');
   const detail = root.querySelector('.arch-detail');
-  const renames = root.querySelector('.arch-renames');
+  const names = root.querySelector('.arch-renames');
   const btns = [...root.querySelectorAll('.seg-btn')];
 
-  // Class and page names are taken from the real code.
+  // Class and page names are taken from the real code of each version.
   const VERSIONS = {
-    before: {
-      intro: 'One servlet does most of the work. Pick a box to see what each part does.',
+    tr: {
+      intro: 'The Turkish version is a Java EE web app. Pick a box to see what each part does.',
       layers: [
         ['Pages', [
-          ['faaliyet.jsp', 'The activity form. Errors and the success message ("Faaliyetiniz başarıyla eklenmiştir") come back to it as request attributes.'],
-          ['tarihSor.jsp', 'Asks for a date range and a project before listing activities.'],
-          ['faaliyetSonuc.jsp', 'Shows the activities found for that date range.'],
+          ['faaliyet.jsp', 'The activity form, where a user logs a day of work: date, hours, project, work done and location. On success it shows "Faaliyetiniz başarıyla eklenmiştir" (your activity was added successfully).'],
+          ['tarihSor.jsp', 'Asks for a date range and a project before listing activities. "Tarih sor" means "ask for the date".'],
+          ['faaliyetSonuc.jsp', 'Lists the activities found for that date range, where each one can be edited or deleted.'],
           ['faaliyetRapor.jsp', 'The activity report page.'],
         ]],
         ['Servlet', [
-          ['FaaliyetServlet', 'Adds, updates, lists and deletes activities in one class. It reads and checks the form, stores lists in the session and chooses the next page. Two of its error handlers are empty, so some failures disappear without a trace.', true],
-          ['FormVerifier', 'A form checker from an in-house framework. Its errors are thrown as Hata, Turkish for "error".'],
+          ['FaaliyetServlet', 'Adds, updates, lists and deletes activities. It reads and checks each form, keeps the user\'s lists in the session and chooses the next page.'],
+          ['FormVerifier', 'Checks every form field by type, such as dates and text, before anything is saved. Errors come back as Hata, Turkish for "error".'],
         ]],
         ['Data', [
-          ['FaaliyetDS', 'A singleton the servlet calls directly: faaliyetEkle (add), faaliyetGuncelle (update), faaliyetGoster (list) and faaliyetSil (delete).'],
+          ['FaaliyetDS', 'The data source the servlet calls: faaliyetEkle (add), faaliyetGuncelle (update), faaliyetGoster (list) and faaliyetSil (delete).'],
         ]],
         ['Model', [
-          ['Faaliyet', 'An activity, with Turkish field names such as tarih (date), calismaSaati (work hours) and projeKod (project code).'],
-          ['Kullanici', 'A user.'],
-          ['Proje', 'A project.'],
+          ['Faaliyet', 'An activity, with fields such as tarih (date), calismaSaati (work hours) and projeKod (project code).'],
+          ['Kullanici', 'A user account.'],
+          ['Proje', 'A project with its code and name.'],
         ]],
       ],
     },
-    after: {
-      intro: 'Each layer has one job and only talks to the one below. Pick a box to see what it does.',
+    en: {
+      intro: 'The English version has one job per layer, and each layer only talks to the one below. Pick a box to see what it does.',
       layers: [
         ['Wiring', [
           ['AppConfig', 'Creates each DAO and the service once and hands them out, so no class builds its own dependencies.'],
@@ -448,7 +448,7 @@ document.querySelectorAll('.tabs').forEach((list) => {
         ]],
         ['Rules', [
           ['ValidationUtil', 'Every check in one place: isValidString, isValidProjectCode (P followed by three digits) and isValidDate (no dates in the future).'],
-          ['ActivityException', 'One exception type for business errors, so problems are reported instead of swallowed.'],
+          ['ActivityException', 'One exception type for business errors, so every problem reaches the user with a clear message.'],
         ]],
         ['Data', [
           ['ActivityDAO', 'saveActivity, getAllActivities and getActivityByProjectCode. Storage details stay inside this layer.'],
@@ -456,17 +456,17 @@ document.querySelectorAll('.tabs').forEach((list) => {
           ['UserDAO', 'Saves users and checks a password with verifyUser.'],
         ]],
         ['Model', [
-          ['Activity', 'The same data with English names: date, workHours, projectCode, workLocation.'],
+          ['Activity', 'An activity, with fields such as date, workHours, projectCode and workLocation.'],
           ['Project', 'A project with its code and name.'],
           ['User', 'A user, with password checking kept inside the class.'],
         ]],
       ],
     },
   };
-  const RENAMES = [['Faaliyet', 'Activity'], ['Kullanici', 'User'], ['Proje', 'Project'], ['tarih', 'date'], ['calismaSaati', 'workHours'], ['projeKod', 'projectCode']];
+  const PAIRS = [['Faaliyet', 'Activity'], ['Kullanici', 'User'], ['Proje', 'Project'], ['tarih', 'date'], ['calismaSaati', 'workHours'], ['projeKod', 'projectCode']];
 
-  renames.innerHTML = '<span class="arch-renames-label">Renamed</span>' +
-    RENAMES.map(([a, b]) => `<span class="rename"><s>${a}</s> <span aria-hidden="true">→</span><span class="sr-only">became</span> <b>${b}</b></span>`).join('');
+  names.innerHTML = '<span class="arch-renames-label">Same names in both</span>' +
+    PAIRS.map(([tr, en]) => `<span class="rename"><span class="tr" lang="tr">${tr}</span> <span aria-hidden="true">=</span><span class="sr-only">is</span> <b>${en}</b></span>`).join('');
 
   function render(v) {
     const ver = VERSIONS[v];
@@ -475,7 +475,7 @@ document.querySelectorAll('.tabs').forEach((list) => {
     stage.innerHTML = ver.layers.map(([label, boxes], li) =>
       (li ? '<span class="arch-arrow" aria-hidden="true"></span>' : '') +
       `<div class="arch-layer"><span class="arch-label">${label}</span><div class="arch-boxes">` +
-      boxes.map(([name, , warn]) => `<button type="button" class="arch-box${warn ? ' is-warn' : ''}" style="--i:${n++}" aria-pressed="false">${name}</button>`).join('') +
+      boxes.map(([name]) => `<button type="button" class="arch-box" style="--i:${n++}" aria-pressed="false">${name}</button>`).join('') +
       '</div></div>'
     ).join('');
     detail.textContent = ver.intro;
@@ -491,5 +491,5 @@ document.querySelectorAll('.tabs').forEach((list) => {
     btns.forEach((x) => { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', x === b); });
     render(b.dataset.v);
   }));
-  render('after');
+  render('en');
 })();

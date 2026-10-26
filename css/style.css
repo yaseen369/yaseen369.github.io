@@ -307,7 +307,7 @@ section { position: relative; }
 .arch-renames { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; }
 .arch-renames-label { font-size: .78rem; font-weight: 700; color: #93A0B5; margin-right: 4px; }
 .rename { font-family: ui-monospace, Consolas, monospace; font-size: .74rem; padding: 3px 9px; border-radius: 999px; border: 1px solid #2A3A5C; color: #93A0B5; }
-.rename s { color: #FF8A80; text-decoration-thickness: 1.5px; }
+.rename .tr { color: var(--sand); }
 .rename b { color: var(--nile-bright); font-weight: 600; }
 
 /* ---------- numbers ---------- */
